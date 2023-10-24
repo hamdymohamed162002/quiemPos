@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import logo from "./assets/logo.png";
+import res from "./assets/res.svg";
+import Tab from "./components/tab";
+import ProductCard from "./components/card";
+import { useNavigate } from "react-router";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [types, settypes] = useState([
+    "قسم البرجر",
+    "قسم اللحوم",
+    "أسماك",
+    "فرايد تشيكن",
+    "القسم الغربي",
+    "وجبات عائلية",
+    "اضافات",
+  ]);
+  const [active, setactive] = useState(0);
+  function changeActive(index) {
+    setactive(index);
+  }
+const router=useNavigate()
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container px-lg-0 px-sm-5 " style={{position:'relative'}}>
+        <div className="d-flex justify-content-between pt-3 ">
+          <div className="logoOnDesk">
+            <img src={logo} />
+          </div>
+          <div className="logoOnDesk">
+            <img src={res} />
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <h3>ماذا تريد ان تطلب ؟</h3>
+          <input className="search-area" placeholder=".. ابحث عن" />
+        </div>
+        <div className="overscrollPhone" >
+          <ul
+            className="nav flex-row nav-pills mb-3 mt-3  flex-nowrap p-0 "
+            style={{ minWidth: "800px" }}
+            id="pills-tab"
+            role="tablist"
+          >
+            {types.map((item, index) => {
+              return (
+                <Tab
+                  active={index == active}
+                  setactive={setactive}
+                  index={index}
+                  key={`${item}${index}`}
+                  text={item}
+                  click={changeActive}
+                />
+              );
+            })}
+          </ul>
+        </div>
+        <div className="row">
+        <ProductCard/>
+        <ProductCard/>
+
+        <ProductCard/>
+
+        </div>
+<div  onClick={()=>router('/cart')} className="bottomCart align-items-center" style={{position:'fixed', bottom:'0px',display:'flex' , justifyContent:'space-between',padding:'5px',borderRadius:'4px'}}>
+
+  <div className="d-flex gap-2 align-items-center">
+    <div style={{backgroundColor:'white',borderRadius:'4px',padding:'10px 15px'}}> 2</div>
+    <div style={{color:'white'}}>الذهاب إلي السلة</div>
+  </div>
+  <div style={{color:'white'}}>
+  30.00 ر.س
+  </div>
+</div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
