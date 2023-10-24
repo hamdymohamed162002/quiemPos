@@ -1588,6 +1588,7 @@ font-weight: 600;
 
   color: white;
   text-align: center;
+  cursor: pointer;
   padding: 10px 20px;
   border-radius: 6px;
   margin-top: 20px;
@@ -1597,6 +1598,7 @@ font-weight: 600;
   border:  1px #6A6E83 solid;
   border-radius: 24px;
 padding: 10px 45px;
+cursor: pointer;
 }
 
 .checkBtn img{
@@ -1616,4 +1618,5 @@ filter: none;
   left: 50%;
   transform: translateX(-50%);
   max-width: 400px;
+  cursor: pointer;
 }
