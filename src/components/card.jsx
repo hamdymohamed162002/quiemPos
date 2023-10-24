@@ -10,7 +10,7 @@ const ProductCard = ({text,price,img,cart,num}) => {
     const router=useNavigate()
     return ( 
 
-        <div className={`${num?'':'col-lg-6'} col-md-12`}>
+        <div className={`${num || cart ?'':'col-lg-6'} col-md-12`}>
         <div className="product-food-card  " onClick={()=>{if(!cart && !num){
             router('/order')
         }}}>
