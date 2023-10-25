@@ -1,7 +1,9 @@
 
-const StaticCard = ({text,title,img,active,forCate}) => {
+const StaticCard = ({text,title,img,active,forCate,index,changeActive}) => {
+    
+    console.log(active)
     return (
-        <div className={forCate  ? active? "staticCard formobile active ":"staticCard formobile ":"staticCard"}> 
+        <div onClick={()=>changeActive(index)} className={forCate  ? active==index? "staticCard formobile active ":"staticCard formobile ":"staticCard"}> 
 <img src={img} />
 <div>
     <h2> {title}</h2>

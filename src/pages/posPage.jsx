@@ -15,6 +15,9 @@ import OrderCheckOut from "../components/orderCheckout";
 
 const PosPage = () => {
   const [acitve, setactive] = useState(0);
+  function changeActive(index) {
+    setactive(index);
+  }
   const [menu, setMenu] = useState([]);
   function addtoMenu(img, text, price) {
     let flag = true;
@@ -41,6 +44,7 @@ const PosPage = () => {
       <div className="row">
         <div className="col-lg-3 col-md-6 col-12 mt-2">
           <StaticCard
+
             img={comp}
             text={"2023-09-13 05:51:26"}
             title={"بدايه الجلسه"}
@@ -67,14 +71,20 @@ const PosPage = () => {
           <div className=" overscrollMobile mt-3">
             <div className="d-flex justify-content-between mobileScroller">
               <StaticCard
-                active
+              changeActive={changeActive}
+active={acitve}
+
+                index={0}
                 title={"مشويات"}
                 text={"8 وجبة"}
                 forCate
                 img={first}
               />
               <StaticCard
-                id={0}
+              changeActive={changeActive}
+active={acitve}
+
+               index={1}
                 title={"فرايد تشيكن"}
                 text={"8 وجبة"}
                 forCate
@@ -82,14 +92,20 @@ const PosPage = () => {
               />
 
               <StaticCard
-                id={0}
+              changeActive={changeActive}
+              active={acitve}
+
+                index={2}
                 title={"برجر"}
                 text={"8 وجبة"}
                 forCate
                 img={third}
               />
               <StaticCard
-                id={0}
+              changeActive={changeActive}
+              active={acitve}
+
+                index={3}
                 title={"مشروبات"}
                 text={"8 وجبة"}
                 forCate
