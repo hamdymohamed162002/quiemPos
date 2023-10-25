@@ -240,3 +240,34 @@ cursor: pointer;
   border-radius: 8px;
   width: 20%;
 }
+.order-btn{
+  padding: 10px 5px;
+  width: calc(100% /3);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.order-btn.active
+{
+  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+  color: white;
+
+}
+.order-btn img{
+  filter: invert(40%) sepia(24%) saturate(320%) hue-rotate(192deg) brightness(100%) contrast(83%);
+}
+
+.order-btn.active img{
+  filter: none;
+}.bottomCart{
+  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+
+text-align: center;
+color: white;
+border-radius: 8px;
+margin-top: 20px;
+padding: 10px;
+  max-width: 400px;
+  cursor: pointer;
+}

@@ -18,11 +18,13 @@ const PosPage = () => {
   const [menu, setMenu] = useState([]);
   function addtoMenu(img, text, price) {
     let flag = true;
+    let newMenu = [...menu];
 
     menu.forEach((item, index) => {
       if (item.text == text) {
         flag = false;
-        menu[index].count++;
+        newMenu[index].count++;
+        setMenu(newMenu);
       }
     });
 
@@ -106,7 +108,7 @@ const PosPage = () => {
         </div>
         <div className="col-lg-4 col-md-12 mt-3">
 
-            <OrderCheckOut />
+            <OrderCheckOut menu={menu} setMenu={setMenu} />
         </div>
       </div>
     </div>
