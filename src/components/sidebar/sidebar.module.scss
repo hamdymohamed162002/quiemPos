@@ -1,0 +1,171 @@
+.sidebarHeader {
+
+    display: flex;
+    justify-content: center;
+    padding: 10px 13px;
+
+    font-family: 'Cairo', sans-serif;
+    align-items: center;
+
+    .Profile {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            color: #ECF0EE;
+
+            p {
+                margin: 0;
+                font-size: 14px;
+            }
+
+            span {
+                font-size: 9px;
+            }
+        }
+    }
+
+    .showBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+
+        padding: 14px;
+        border-radius: 8px;
+    }
+}
+
+.body {
+    position: relative;
+    direction: rtl;
+  
+    padding: 20px 21px;
+    font-family: 'Cairo', sans-serif;
+
+    .mainIcon {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+margin-top: 10px ;
+        div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        span {
+            font-size: 18px;
+            font-weight: 600;
+            color: black;
+        }
+    }
+
+    .subIcon {
+        display: flex;
+position: relative;
+z-index: 2;
+        align-items: center;
+        gap: 5px;
+
+        div {
+            display: flex;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        span {
+            font-size: 14px;
+            font-weight: 400;
+            color: black;
+        }
+    }
+}
+
+.marker{
+   
+    width: 100%;
+    position: absolute;
+    transition: 0.4s;
+   z-index: 0;
+    left: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .line{
+      
+        background-color: #F0B740;
+        border-radius: 4px;
+        height: 35px;
+        width: 5px;
+    }
+    .trapezoid{
+        height: 45px;
+        flex: 1;
+        clip-path: polygon(100% 0, 100% 100%, 0 89%, 0 15%);
+
+    
+        background: rgb(240,183,64);
+        background: linear-gradient(90deg, rgba(240,183,64,0.6446953781512605) 39%, rgba(0,0,0,0) 95%);
+    }
+    
+  
+}
+
+.active{
+    
+    .body{
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .sidebarHeader{
+        padding: 10px;
+    }
+    .Profile{
+        position: absolute;
+        opacity: 0;
+        transition: 0.4s;
+        z-index: -1;
+    }
+    .mainIcon{
+        span{
+            position: absolute;
+            opacity: 0;
+            transition: 0.4s;
+            z-index: -1;
+        }
+
+    }
+    .subIcon{
+        
+        span{
+            position: absolute;
+            opacity: 0;
+            transition: 0.4s;
+            z-index: -1;
+        }
+    }
+
+}
+.sideBar{
+    flex-direction: column;
+    display: flex;
+    .body{
+        flex: 1;
+    }
+    
+}

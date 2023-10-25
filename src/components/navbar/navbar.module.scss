@@ -1,0 +1,82 @@
+.navbar{
+    background-color: white;
+    padding: 12px 75px;
+    width: 100%;
+    @media (max-width:400px) {
+        padding: 12px 20px;
+        padding-inline-end: 61px;
+    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .Title{
+        display: flex;
+        width: 20%;
+       gap:10px;
+        color: white;
+        align-items: center;
+        font-weight: 600;
+.icon{
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    background-color: #F8F9FD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+    }
+}
+
+.btnLng {
+
+    width: 100% !important;
+    height: 100% !important;
+    background: white !important;
+    color: rgb(20, 128, 163);
+    font-size: 25px;
+    line-height: 50px !important;
+    cursor: pointer ;
+    text-align: center;
+}
+.btnLng:hover {
+    background: rgb(20, 128, 163) !important;;
+    color: white !important;
+}
+.dropDown{
+    position: absolute;
+    bottom: 0;
+    transform: translateY(100%);
+
+    background-color: white ;
+
+    padding:8px 20px;
+    width: 200px;
+    border-radius:8px;
+    p{
+        margin-bottom: 5px;
+        &:last-child{
+          cursor: pointer;
+        }   
+    }
+}
+.logOut{
+    background-color: #E21F1F;
+    color: white;
+    display: flex;
+    padding: 10px;
+    border-radius: 8px;
+    gap: 5px;
+}
+.posPoint{
+    background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+    padding: 10px;
+    border-radius: 8px;
+    gap: 5px;
+    color: white;
+}
+@media (max-width:400px){
+    .posPoint{
+        display: none;
+    }
+}

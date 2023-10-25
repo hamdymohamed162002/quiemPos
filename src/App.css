@@ -1,0 +1,242 @@
+.title {
+    font-size: 24px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    text-align: center;
+  }
+  
+  .subTitle {
+    font-size: 14px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    text-align: center;
+    font-weight: 400;
+  }
+  
+  body {
+  direction: rtl;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  .offcanvas-body {
+    padding: 0px !important;
+  }
+  
+  .responsiveNav {
+    display: none !important;
+  }
+  
+  .resposive-container {
+    display: flex;
+  }
+  .responsive-sideBar{
+    background-color: white;
+  }
+  
+  
+  .main-page {
+  width: 100%;
+  }
+  @media (max-width:1150px) {
+    .responsive-sideBar {
+      display: none;
+    }
+    .main-page {
+     
+      width: 100%;
+    }
+    .responsiveNav {
+      display: block !important;
+    }
+  
+    .resposive-container {
+      display: block;
+    }
+  }
+  .SlickDots{
+    position: absolute;
+    bottom: -25px;
+    display: flex !important;
+    width: 100%;
+    padding: 0;
+    justify-content: center;
+    margin: 0;
+    gap: 5px;
+    list-style: none;
+    text-align: center;
+  
+  }  
+  .SlickDot{
+    background-color: #E4EBF1;
+    width: 20px;
+    height: 20px;
+    display: block;
+    border-radius: 50%;
+    transition: 0.2s;
+  }
+  
+  .slick-active a{
+   width: 40px;
+   border-radius: 14px;
+   background-color: #C0CDD8;
+  }
+  
+  .ar {
+    direction: rtl;
+  
+  }
+  .en {
+    direction: ltr;
+  
+  }
+  div[dir="rtl"]  .rs-picker-toggle.rs-btn-md .rs-picker-toggle-caret, .rs-picker-toggle.rs-btn-md .rs-picker-toggle-clean {
+    right: unset ;
+    
+    
+      }
+  div[dir="rtl"]   .rs-check-item .rs-checkbox-checker>label {
+    cursor: pointer;
+    display: block;
+    line-height: 20px;
+    padding: 8px 11px 8px 12px;
+    position: relative;
+  }
+  .rs-picker-cleanable .rs-picker-tag-wrapper {
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+  }
+  .staticCard{
+    display: flex;
+    border-radius: 8px;
+    background-color: white;
+    gap: 10px;
+    padding: 10px;
+  }
+  .staticCard img{
+    width: 62px;
+    height: 62px;
+
+    
+  }
+  .staticCard{
+    align-items: center;
+    height: 100%;
+  }
+  .staticCard p{
+    font-size: 24px;
+    margin: 0;
+    font-weight: bold;
+  }
+  .staticCard h2{
+    color :#6A6E83;
+    font-size: 16px;
+  }
+  .searchBar{
+    position: relative  ;
+    width: 100%;
+    border-radius: 8px;
+    background-color: white;
+    padding: 10px;  
+    display: flex;
+    border: 1px solid rgba(106, 110, 131,0.12) ;
+    align-items: center;
+  }
+  .searchBar input {
+    border: none;
+    height: 100%;
+    font-size: 18px;
+    width: 100%;
+  }
+  .searchBar input:focus{
+    outline: none;
+  }
+  .searchBar input::placeholder{
+    font-size: 18px;
+  }
+  .formobile{
+    min-width: 180px;
+    cursor: pointer;
+  }
+@media(max-width:991px)
+{
+  .overscrollMobile{
+    overflow-x: scroll;
+  }
+  .mobileScroller{
+    min-width: 900px;
+  }
+}
+.formobile p{
+  color :#6A6E83;
+  font-size: 16px;
+}
+.formobile h2{
+  color :black;
+  font-size: 18px;
+}
+.formobile.active{
+  background-color: rgba(19, 180, 215,0.12) ;
+  border: 1px solid #13B4D7;
+}
+.foodCard{
+  padding: 10px;
+  border-radius: 8px;
+  height: 100%;
+  background-color: white;
+
+}
+.foodCard img{
+  width: 100%;
+
+  border-radius: 8px;
+}
+.foodCard .add-icon{
+width: 34px;
+background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+border-radius: 50%;
+height: 34px;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+}
+.foodCard h3{
+  font-size: 16px;
+}
+.orderCheckCard{
+  padding: 10px;
+  background-color: white;
+}
+.number-active{
+  border-radius: 8px;
+  border: 1px solid rgba(86, 86, 86,0.2);
+  display: flex;
+  overflow: hidden;
+}
+
+.number-active input 
+{
+  border: none;
+  width: 80%;
+  padding: 10px;
+
+  height: 100%;
+}
+.number-active button{
+  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 20%;
+}
+.addClient{
+  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+
+  color: white;
+  border: none;
+  padding: 10px 0px;
+  text-align: center;
+  border-radius: 8px;
+  width: 20%;
+}

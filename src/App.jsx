@@ -6,7 +6,13 @@ import logo from "./assets/logo.png";
 import res from "./assets/res.svg";
 import Tab from "./components/tab";
 import ProductCard from "./components/card";
-import { useNavigate } from "react-router";
+
+import MobileSideBar from "./components/sidebar/mobileSideBar";
+import SideBar from "./components/sidebar/sidebar";
+import NavBar from "./components/navbar/navbar";
+import { Route, RouterProvider, Routes, createBrowserRouter } from "react-router-dom";
+import Order from "./pages/orderPage";
+import PosPage from "./pages/posPage";
 
 function App() {
   const [types, settypes] = useState([
@@ -22,10 +28,11 @@ function App() {
   function changeActive(index) {
     setactive(index);
   }
-const router=useNavigate()
+
+
   return (
     <>
-      <div className="container px-lg-0 px-sm-5 " style={{position:'relative'}}>
+      {/* <div className="container px-lg-0 px-sm-5 " style={{position:'relative'}}>
         <div className="d-flex justify-content-between pt-3 ">
           <div className="logoOnDesk">
             <img src={logo} />
@@ -77,7 +84,41 @@ const router=useNavigate()
   30.00 ر.س
   </div>
 </div>
+      </div> */}
+          <div>
+    
+
+      <div
+        style={{
+          display: "",
+          justifyContent: "space-between",
+          backgroundColor: "#ECF0EE",
+        }}
+        className="resposive-container"
+      >
+        <div
+          style={
+            true
+              ? { width: "20%", transition: "0.4s", minWidth: "20%" }
+              : { width: "66px", transition: "0.4s" }
+          }
+          className="responsive-sideBar"
+        >
+          <SideBar />
+        </div>
+        
+        <div className="main-page" style={{minHeight:'100vh'}}>
+        <NavBar />
+<Routes>
+<Route path='' element={
+                       
+                                <PosPage />
+                            } />
+</Routes>
+        </div>
       </div>
+      <MobileSideBar flag />
+    </div>
     </>
   );
 }
