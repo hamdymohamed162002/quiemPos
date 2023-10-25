@@ -45,16 +45,16 @@ const OrderCheckOut = ({ menu, setMenu }) => {
         style={{ border: "1px solid #6A6E83", borderRadius: "8px" }}
       >
         <div className="order-btn active">
-          <img src={truck} />
+          <img src={truck} style={{width:'24px', height:'24px'}} />
           المطعم{" "}
         </div>
         <div className="order-btn ">
-          <img src={shop} />
+          <img src={shop} style={{width:'24px', height:'24px'}} />
           سفري{" "}
         </div>
 
         <div className="order-btn ">
-          <img src={cash} />
+          <img src={cash} style={{width:'24px', height:'24px'}} />
           طلبات سيارة{" "}
         </div>
       </div>
