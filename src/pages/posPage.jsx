@@ -69,7 +69,7 @@ const PosPage = () => {
           </div>
 
           <div className=" overscrollMobile mt-3">
-            <div className="d-flex justify-content-between mobileScroller">
+            <div className="d-flex gap-5 mobileScroller">
               <StaticCard
               changeActive={changeActive}
 active={acitve}

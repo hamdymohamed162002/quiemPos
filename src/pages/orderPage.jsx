@@ -12,7 +12,7 @@ const Order = ({ title, text, price = 0 }) => {
     <div style={{ backgroundColor: "#F2F5FF" ,paddingBottom:'40px' }}>
       <div className="rest-banner">
         <div className="banner-imagee d-flex align-items-end"></div>
-        <div style={{position:'absolute',zIndex:'1000',top:'10px',right:'10px'}} onClick={()=>router('/')}> <img src={exit}/></div>
+        <div style={{position:'absolute',zIndex:'1000',top:'10px',right:'10px'}} onClick={()=>router('/ClientPos')}> <img src={exit}/></div>
       </div>
       <div>
         <div className="container" style={{ backgroundColor: "white" }}>

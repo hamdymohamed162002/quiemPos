@@ -32,6 +32,9 @@
   .responsive-sideBar{
     background-color: white;
   }
+  .basic-single{
+    width: 100% ;
+  }
   
   
   .main-page {
@@ -154,7 +157,7 @@
     font-size: 18px;
   }
   .formobile{
-    min-width: 180px;
+    min-width: 250px;
     cursor: pointer;
   }
 @media(max-width:991px)

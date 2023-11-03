@@ -1620,3 +1620,6 @@ filter: none;
   max-width: 400px;
   cursor: pointer;
 }
+.orderCheckCard .bottomCart{
+  transform: translateX(0);
+}
