@@ -31,14 +31,14 @@ const OrderCheckOut = ({ menu, setMenu }) => {
         </h3>
       </div>
 
-      <div>
+      <div className="mt-3">
         <label className=" mb-1">العميل </label>
         <div className="d-flex gap-2 align-items-center">
           <div  style={{ display: "flex", flex: "1", fontSize: "16px" }}>
           <Select
         className="basic-single"
         classNamePrefix="select"
-  
+        placeholder={'اختر العميل'}
         isClearable={true}
         isRtl={true}
         isSearchable={true}
@@ -56,7 +56,7 @@ const OrderCheckOut = ({ menu, setMenu }) => {
       </div>
       <div
         className="d-flex mt-3"
-        style={{ border: "1px solid #6A6E83", borderRadius: "8px" }}
+        style={{ border: "1px solid rgba(106,110,131,0.2)", borderRadius: "8px" }}
       >
         <div className={`order-btn ${acitve==0?'active':''}`} onClick={()=>setactive(0)}>
           <img src={truck} style={{width:'24px', height:'24px'}} />
@@ -100,8 +100,8 @@ const OrderCheckOut = ({ menu, setMenu }) => {
           <option value="3">Three</option>
         </select>
       </div>
-      <div>
-        <label className="fs-4">المنتجات المضافة</label>
+      <div className="mt-3">
+        <label className="fs-4 mb-3">المنتجات المضافة</label>
 
         {menu.length ? (
           <div>
@@ -119,10 +119,10 @@ const OrderCheckOut = ({ menu, setMenu }) => {
             })}
           </div>
         ) : (
-          <h1 style={{ fontSize: "16px" }}>لا يوجد منتجات</h1>
+          <h1 style={{ fontSize: "16px",color:'red' }}>لا يوجد منتجات</h1>
         )}
       </div>
-      <div class="d-flex flex-column">
+      <div class="d-flex flex-column mt-3 mb-2">
         <label for="name">هل يوجد كود خصم ؟ </label>
         <div class="number-active mt-1 p-1">
           <input type="text" name="name" id="name" placeholder="CX3020" />
