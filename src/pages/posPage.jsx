@@ -64,7 +64,7 @@ const PosPage = () => {
         <div className="col-lg-8 col-md-12 mt-3">
           <div className="searchBar">
             <input placeholder="بحث ..." />
-            <input placeholder="" />
+       
             <div className="searchIcon"></div>
           </div>
 

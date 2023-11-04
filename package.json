@@ -16,6 +16,7 @@
     "@mui/material": "^5.14.15",
     "@mui/styled-engine": "^5.14.15",
     "@mui/styled-engine-sc": "^6.0.0-alpha.3",
+    "axios": "^1.6.0",
     "bootstrap": "^5.3.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
