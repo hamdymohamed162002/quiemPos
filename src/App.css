@@ -248,6 +248,7 @@ cursor: pointer;
   width: calc(100% /3);
   border-radius: 8px;
   display: flex;
+  transition: 0.4s;
   align-items: center;
   justify-content: center;
   gap: 5px;
