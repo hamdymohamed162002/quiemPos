@@ -5,7 +5,7 @@ import Select from 'react-select';
 import MenuCard from "./menuCard";
 import { useEffect, useState } from "react";
 import axios from '../axios.js'
-const OrderCheckOut = ({ menu, setMenu }) => {
+const OrderCheckOut = ({ menu, setMenu,setShow }) => {
   function delte(index) {
     let newMenu = [...menu];
     newMenu.splice(index, 1);
@@ -74,7 +74,7 @@ const [couponLoading,setcouponLoading] = useState(false)
           </div>
      
       
-          <div className="addClient">عميل جديد</div>
+          <div className="addClient" onClick={()=>setShow(true)}>عميل جديد</div>
         </div>
       </div>
       <div
