@@ -160,6 +160,12 @@
     min-width: 250px;
     cursor: pointer;
   }
+  .overscrollMobile{
+    user-select: none;
+  }
+  .overscrollMobile::-webkit-scrollbar {
+    display: none;
+  }
 @media(max-width:991px)
 {
   .overscrollMobile{

@@ -1,15 +1,40 @@
+import { Skeleton } from "@mui/material";
 
-const StaticCard = ({text,title,img,active,forCate,index,changeActive}) => {
+ import axios from '../axios.js'
+const StaticCard = ({text,title,img,active,forCate,index,changeActive,loading,setproducts,id,setproductError}) => {
     
-    console.log(active)
+    
+    function ClickHandler(){
+        changeActive(index)
+        axios.get(`/category/${id}`)
+        .then(res=>{
+        
+        
+        
+            if(res.data.data.product.length==0)
+            {
+                setproductError("لا يوجد منتجات")
+            }
+            else if(res.data.data.product.length>0){
+      
+                setproducts(res.data.data.product)
+                setproductError(null)
+
+            }
+        })
+        .catch((err,req)=>{
+console.log( err.response.status)
+            setproducts([])
+         
+           
+        })
+    }
     return (
-        <div onClick={()=>changeActive(index)} className={forCate  ? active==index? "staticCard formobile active ":"staticCard formobile ":"staticCard"}> 
+        <div onClick={ClickHandler} className={forCate  ? active==index? "staticCard formobile active ":"staticCard formobile ":"staticCard"}> 
 <img src={img} />
 <div>
     <h2> {title}</h2>
-    <p>
- {text}
-    </p>
+ {loading? <Skeleton variant="text" width={100} height={20} /> : <p>{text}</p>}
 
 </div>
         </div>

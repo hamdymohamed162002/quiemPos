@@ -3,19 +3,42 @@ import truck from "../assets/vuesax-outline-truck-fast.png";
 import cash from "../assets/moneys-outline.png";
 import Select from 'react-select';
 import MenuCard from "./menuCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from '../axios.js'
 const OrderCheckOut = ({ menu, setMenu }) => {
   function delte(index) {
     let newMenu = [...menu];
     newMenu.splice(index, 1);
     setMenu(newMenu);
   }
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
+  
+
+  const [options,setOptions] = useState(0);
   const [acitve,setactive] = useState(0)
+  useEffect(() => {
+    axios.get('/customers').then(res=>{
+    
+      const newOptions= res.data.data.map(item=>{
+        return {value:item.id,label:item.name}
+      })
+setOptions(newOptions)
+    })
+  }, []);
+    const [coupon,setcoupon] = useState('')
+const [couponError,setcouponError] = useState();
+const [couponLoading,setcouponLoading] = useState(false)
+    function copunHandler(){
+      setcouponLoading(true)
+      axios.post('/coupon',{coupon:coupon}).then(res=>{
+        console.log(res.data)
+      setcouponLoading(false)
+      setcouponError(res.data.discount)
+
+      })
+      .catch(err=>{
+       setcouponError(true)
+      })
+    }
   return (
     <div className="orderCheckCard" style={{ borderRadius: "8px" }}>
       <div
@@ -125,11 +148,11 @@ const OrderCheckOut = ({ menu, setMenu }) => {
       <div class="d-flex flex-column mt-3 mb-2">
         <label for="name">هل يوجد كود خصم ؟ </label>
         <div class="number-active mt-1 p-1">
-          <input type="text" name="name" id="name" placeholder="CX3020" />
-          <button>تطبيق</button>
+          <input onChange={(e)=>setcoupon(e.target.value)} type="text" name="name" id="name" placeholder="CX3020" />
+          <button onClick={copunHandler}>تطبيق</button>
         </div>
       </div>
-      <div  className="bottomCart" style={{transform:'translateX(0%) !important'}}>
+      <div   className="bottomCart" style={{transform:'translateX(0%) !important'}}>
       تأكيد الطلب
       </div>
     </div>
