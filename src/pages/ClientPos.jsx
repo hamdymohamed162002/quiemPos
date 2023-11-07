@@ -2,7 +2,8 @@ import { useState } from "react";
 import ProductCard from "../components/card";
 import Tab from "../components/tab";
 import { useNavigate } from "react-router";
-
+import logo from '../assets/logo.png';
+import res from '../assets/res.svg'
 const ClientPos = () => {
     const [types, settypes] = useState([
         "قسم البرجر",
