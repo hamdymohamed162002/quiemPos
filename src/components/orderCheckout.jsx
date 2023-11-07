@@ -26,7 +26,8 @@ setOptions(newOptions)
   }, []);
     const [coupon,setcoupon] = useState('')
 const [couponError,setcouponError] = useState();
-const [couponLoading,setcouponLoading] = useState(false)
+const [couponLoading,setcouponLoading] = useState(false);
+const [right,setright] = useState(0)
     function copunHandler(){
       setcouponLoading(true)
       axios.post('/coupon',{coupon:coupon}).then(res=>{
@@ -74,55 +75,68 @@ const [couponLoading,setcouponLoading] = useState(false)
           </div>
      
       
-          <div className="addClient" onClick={()=>setShow(true)}>عميل جديد</div>
+          <div className="addClient" role="button" onClick={()=>setShow(true)}>عميل جديد</div>
         </div>
       </div>
       <div
         className="d-flex mt-3"
-        style={{ border: "1px solid rgba(106,110,131,0.2)", borderRadius: "8px" }}
+        style={{ border: "1px solid rgba(106,110,131,0.2)", borderRadius: "8px",position:'relative' }}
       >
-        <div className={`order-btn ${acitve==0?'active':''}`} onClick={()=>setactive(0)}>
-          <img src={truck} style={{width:'24px', height:'24px'}} />
-          المطعم{" "}
-        </div>
-        <div  className={`order-btn ${acitve==1?'active':''}`} onClick={()=>setactive(1)}>
+           <div className="tabMarker" style={{right:right}} >
+
+
+</div>
+        <div className={`order-btn ${acitve==0?'active':''}`} onClick={()=>{setactive(0); setright('0%')}}>
           <img src={shop} style={{width:'24px', height:'24px'}} />
+          المطعم{" "}
+       
+        </div>
+        <div  className={`order-btn ${acitve==1?'active':''}`} onClick={()=>{setactive(1); setright('25%')}}>
+          <img src={truck} style={{width:'24px', height:'24px'}} />
           سفري{" "}
         </div>
 
-        <div className={`order-btn ${acitve==2?'active':''}`} onClick={()=>setactive(2)}>
+        <div className={`order-btn ${acitve==2?'active':''}`} onClick={()=>{setactive(2); setright('50%')}}>
           <img src={cash} style={{width:'24px', height:'24px'}} />
           طلبات سيارة{" "}
         </div>
+        <div className={`order-btn ${acitve==3?'active':''}`} onClick={()=>{setactive(3); setright('75%')}}>
+          <img src={cash} style={{width:'24px', height:'24px'}} />
+           برامج التوصيل{" "}
+        </div>
       </div>
-      <div className="mt-3">
-        <label className=" mb-1">رقم الطاولة </label>
+    {
+      acitve==0?  <div className="mt-3">
+      <label className=" mb-1">رقم الطاولة </label>
 
-        <select
-          style={{ display: "flex", flex: "1", fontSize: "16px" }}
-          className="form-select form-select-lg  "
-          aria-label=".form-select-lg example"
-        >
-          <option selected> اختر رقم الطاولة </option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-      <div className="mt-3">
-        <label className=" mb-1">برامج التوصيل </label>
+      <select
+        style={{ display: "flex", flex: "1", fontSize: "16px" }}
+        className="form-select form-select-lg  "
+        aria-label=".form-select-lg example"
+      >
+        <option selected> اختر رقم الطاولة </option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+      </select>
+    </div>:null
+    }
+   {
+    acitve== 3 ?   <div className="mt-3">
+    <label className=" mb-1">برامج التوصيل </label>
 
-        <select
-          style={{ display: "flex", flex: "1", fontSize: "16px" }}
-          className="form-select form-select-lg  "
-          aria-label=".form-select-lg example"
-        >
-          <option selected> اختر برامج التوصيل </option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
+    <select
+      style={{ display: "flex", flex: "1", fontSize: "16px" }}
+      className="form-select form-select-lg  "
+      aria-label=".form-select-lg example"
+    >
+      <option selected> اختر برامج التوصيل </option>
+      <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>
+    </select>
+  </div>:null
+   }
       <div className="mt-3">
         <label className="fs-4 mb-3">المنتجات المضافة</label>
 

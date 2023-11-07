@@ -22,20 +22,25 @@ const PosPage = () => {
     setactive(index);
   }
   const [menu, setMenu] = useState([]);
-  function addtoMenu(img, text, price) {
+  function addtoMenu(img, text, price,extra,count) {
     let flag = true;
     let newMenu = [...menu];
 
     menu.forEach((item, index) => {
       if (item.text == text) {
         flag = false;
-        newMenu[index].count++;
-        setMenu(newMenu);
+  
       }
     });
-
+const tempExtra=extra.filter(item => item.count > 0)
+.map(item => ({
+  title: item.title,
+  price: item.price,
+  qty: item.count,
+  id: item.id
+}));
     if (flag) {
-      setMenu([...menu, { img, text, price, count: 1 }]);
+      setMenu([...menu, { img, text, price, count: count ,extra:tempExtra}]);
     }
     console.log(menu);
   }
@@ -195,7 +200,7 @@ setproducts(req.data.data.product)
            img={item.image}
            text={item.title}
            price={item.price}
-           
+           id={item.id}
          />
        </div>
       })}

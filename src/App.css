@@ -255,14 +255,17 @@ cursor: pointer;
   border-radius: 8px;
   display: flex;
   transition: 0.4s;
+  position: relative;
   align-items: center;
+  background-color: transparent;
   color: #6A6E83;
   justify-content: center;
   gap: 5px;
 }
 .order-btn.active
 {
-  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+  background-color: transparent;
+
   color: white;
 
 }
@@ -272,7 +275,9 @@ cursor: pointer;
 
 .order-btn.active img{
   filter: none;
-}.bottomCart{
+}
+
+.bottomCart{
   background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
 
 text-align: center;
@@ -286,4 +291,12 @@ padding: 10px;
 
 input:focus{
   outline: none;
+}
+.tabMarker{
+  position: absolute;
+  width: calc(100% / 4);
+  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+  height: 100%;
+  border-radius: 8px;
+  transition: .4s;
 }

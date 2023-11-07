@@ -16,6 +16,7 @@ const MenuCard = ({img,text,price,count,index,delte}) => {
                     الكمية : {count}
                     </span>
                 </div>
+                
             </div>
             <div onClick={()=>delte(index)} style={{display:'flex',justifyContent:'center',alignItems:'center' ,backgroundColor:'#E91D1D',padding:'5px',borderRadius:'5px'}}>
 <DeleteIcon sx={{color:'white'}}/>
