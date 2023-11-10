@@ -13,7 +13,7 @@ const StaticCard = ({text,title,img,active,forCate,index,changeActive,loading,se
         
             if(res.data.data.product.length==0)
             {
-                setproductError("لا يوجد منتجات")
+                setproductError("noProducts")
             }
             else if(res.data.data.product.length>0){
       
