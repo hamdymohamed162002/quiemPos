@@ -206,27 +206,9 @@ setShowModal(false)
             })}
           </div>
         </div>
+      
         <div
-          className="container mt-3 p-3"
-          style={{ backgroundColor: "white" }}
-        >
-          <div className="d-flex justify-content-between">
-            <span> هل لديك ملاحظات إضافية ؟</span>
-            <span>
-              <img src={edit} />
-            </span>
-          </div>
-          <div>
-            <input
-              type="text"
-              class="form-control mt-3"
-              id="exampleFormControlInput1"
-              placeholder=""
-            />
-          </div>
-        </div>
-        <div
-          className="d-flex justify-content-between bottomCart"
+          className="d-flex justify-content-between modalBtn"
           style={{
             transform: "translateX(0%) !important",
             maxWidth: "100% !important",
