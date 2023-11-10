@@ -275,7 +275,7 @@ const PosPage = () => {
             </div>
           </div>
           <div className="col-lg-4 col-md-12 mt-3">
-            <OrderCheckOut checkout={checkout} menu={menu} setMenu={setMenu} setShow={setShow} />
+            <OrderCheckOut checkout={checkout} menu={menu} setMenu={setMenu} setShow={setShow} setcheckout={setcheckout} />
           </div>
         </div>
       </div>

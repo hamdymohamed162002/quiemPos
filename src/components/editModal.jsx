@@ -5,17 +5,18 @@ import exit from "../assets/close.png";
 import edit from "../assets/edit-2.png";
 import axios from "../axios";
 import { Modal } from "react-bootstrap";
-const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,count}) => {
+const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,count,setMenu,index,menu}) => {
 
   const [extra, setExtra] = useState([]);
   const [totalPrice, settotalPrice] = useState();
-
+const [tempExtra,setTempExtra]=useState([...selectedExtra])
 
   useEffect(() => {
     axios.get(`/extra/${id}`).then((res) => {
       const ExtraWithCount = res.data.data.map((item) => {
-        return { ...item, count: 0 };
+        return { ...item, qty: 0 };
       });
+      console.log(ExtraWithCount)
       setExtra(ExtraWithCount);
     });
   }, []);
@@ -26,6 +27,18 @@ const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,co
         }
     }
     return null;  // Return null if the object with the given ID is not found
+}
+function submitHandler()
+{
+ 
+  const tempMenuItem={...menu[index]}
+  tempMenuItem.extra=tempExtra;
+
+  const tempMenu= [...menu]
+  tempMenu[index]=tempMenuItem;
+setMenu(tempMenu)
+setShowModal(false)
+  
 }
 
   return (
@@ -144,22 +157,44 @@ const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,co
                     <div className="d-flex addMinus">
                       <span
                         onClick={() => {
-                          if (item.count > 0) {
-                            const newExtra = [...selectedExtra];
+                     
+                          if (searchById(tempExtra,item.id)?.qty > 0) {
+                            const newExtra = [...tempExtra];
                             newExtra[index].qty = newExtra[index].qty - 1;
-                            setExtra(newExtra);
+                            if(newExtra[index].qty==0)
+                            {
+                              newExtra.splice(index,1)
+                            }
+                         
+                            setTempExtra(newExtra);
                           }
+                         
                         }}
                       >
                         <img src={minus} />
                       </span>
-                      <span>{searchById(selectedExtra,item.id)?.qty || Number(0) }</span>
+                      <span>{searchById(tempExtra,item.id)?.qty || Number(0) }</span>
 
                       <span
                         onClick={() => {
-                          const newExtra = [...extra];
-                          newExtra[index].qty = newExtra[index].qty + 1;
-                          setExtra(newExtra);
+                          if(
+                            !searchById(tempExtra,item.id)
+                          )
+                          {
+                     
+                            let temp ={...item}
+                            temp.qty = temp.qty + 1;
+                            const newExtra = [...tempExtra,temp];
+                         
+                            setTempExtra(newExtra);
+                          }
+                          else{
+                            const newExtra = [...tempExtra];
+                            newExtra[index].qty = newExtra[index].qty + 1;
+                            setTempExtra(newExtra);
+                          }
+                         
+                        
                         }}
                       >
                         <img src={plus} />
@@ -197,7 +232,7 @@ const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,co
             maxWidth: "100% !important",
             width: "100%",
           }}
-          onClick={() => submit()}
+          onClick={() => submitHandler()}
         >
           <span>الإضافة الي السلة</span>
 

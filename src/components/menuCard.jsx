@@ -2,7 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EditModal from "./editModal";
 import { useState } from "react";
-const MenuCard = ({ img, text, price, count, index, delte, extra,setMenu,id ,editHandler }) => {
+const MenuCard = ({ img, text, price, count, index, delte, extra,setMenu,id ,editHandler ,menu}) => {
     const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -73,6 +73,8 @@ const MenuCard = ({ img, text, price, count, index, delte, extra,setMenu,id ,edi
     price={price}
     id={id}
     count={count}
+    index={index}
+    menu={menu}
     />
     </>
   );
