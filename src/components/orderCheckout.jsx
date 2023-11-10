@@ -19,6 +19,10 @@ const OrderCheckOut = ({ menu, setMenu, setShow ,checkout}) => {
   const [company, setcompany] = useState(null);
   const [companyError, setcompanyError] = useState(false);
   const [productError, setproductError] = useState(false);
+
+  const [orderLoading, setorderLoading] = useState(false);
+  const [orderSuccess, setorderSuccess] = useState(false);
+  const [orderError, setorderError] = useState(false);
   //modal functions
 
   function delte(index) {
@@ -32,7 +36,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow ,checkout}) => {
     setExtra(extra);
     settext(text);
     setprice(price);
-    setcount(menu[index].count);
+    setcount(menu[index].qty);
     settotalPrice(price);
   }
 
@@ -123,12 +127,16 @@ const OrderCheckOut = ({ menu, setMenu, setShow ,checkout}) => {
     postData.order_type = 'company'
     postData.company= company
    }
-
+setorderLoading(true)
    axios.post('/order',postData).then(res=>{
       console.log(res.data)
+setorderLoading(false)
+setorderSuccess(true)
+
     }
     ).catch(err=>{
-      console.log(err)
+      setorderLoading(false)
+      setorderError(true)
     })
   }
   return (
@@ -358,13 +366,19 @@ const OrderCheckOut = ({ menu, setMenu, setShow ,checkout}) => {
   )
 }
         </div>
-        <div
+        <button
           className="bottomCart"
-          style={{ transform: "translateX(0%) !important" }}
+          style={{ transform: "translateX(0%) !important",border:'none' }}
           onClick={submitHandler}
+          disabled={orderLoading}
         >
-          تأكيد الطلب
-        </div>
+   {
+    orderLoading?(
+      <span class="loader"></span>
+
+    ):"تأكيد الطلب"
+   }
+        </button>
         {
           productError && (
             <div className="mt-1" style={{ color: "red" }}>

@@ -19,6 +19,15 @@ const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,co
       setExtra(ExtraWithCount);
     });
   }, []);
+  function searchById(collection, targetId) {
+    for (let i = 0; i < collection.length; i++) {
+        if (collection[i].id === targetId) {
+            return collection[i];
+        }
+    }
+    return null;  // Return null if the object with the given ID is not found
+}
+
   return (
     <Modal size="lg" show={showModal} onHide={() => setShowModal(false)}>
       <Modal.Header closeButton></Modal.Header>
@@ -136,20 +145,20 @@ const EditModal = ({ showModal, setShowModal, selectedExtra, price , id,text ,co
                       <span
                         onClick={() => {
                           if (item.count > 0) {
-                            const newExtra = [...extra];
-                            newExtra[index].count = newExtra[index].count - 1;
+                            const newExtra = [...selectedExtra];
+                            newExtra[index].qty = newExtra[index].qty - 1;
                             setExtra(newExtra);
                           }
                         }}
                       >
                         <img src={minus} />
                       </span>
-                      <span>{item.qty}</span>
+                      <span>{searchById(selectedExtra,item.id)?.qty || Number(0) }</span>
 
                       <span
                         onClick={() => {
                           const newExtra = [...extra];
-                          newExtra[index].count = newExtra[index].count + 1;
+                          newExtra[index].qty = newExtra[index].qty + 1;
                           setExtra(newExtra);
                         }}
                       >
