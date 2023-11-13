@@ -153,7 +153,7 @@ const PosPage = () => {
         setCategories(req.data.data);
       })
       .catch((err) => {
-        toast.error("حدث خطأ ما");
+
       });
   }, []);
   useEffect(() => {
