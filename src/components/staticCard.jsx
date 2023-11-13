@@ -1,11 +1,13 @@
 import { Skeleton } from "@mui/material";
 
  import axios from '../axios.js'
-const StaticCard = ({text,title,img,active,forCate,index,changeActive,loading,setproducts,id,setproductError}) => {
+const StaticCard = ({text,title,img,active,forCate,index,changeActive,loading,setproducts,id,setproductError,disabled}) => {
     
     
     function ClickHandler(){
-        changeActive(index)
+        changeActive(index, disabled)
+      if(!disabled)
+      {
         axios.get(`/category/${id}`)
         .then(res=>{
         
@@ -28,12 +30,14 @@ console.log( err.response.status)
          
            
         })
+      }
     }
     return (
-        <div onClick={ClickHandler} className={forCate  ? active==index? "staticCard formobile active ":"staticCard formobile ":"staticCard"}> 
+        <div onClick={ClickHandler} className={forCate  ? active==index? "staticCard formobile active ":"staticCard formobile ":"staticCard"} style={disabled?{backgroundColor:"rgba(106,110, 131 , 46%)", cursor
+        :'not-allowed'}:null}> 
 <img src={img} />
 <div>
-    <h2> {title}</h2>
+    <h2 style={disabled?{color:'#6A6E83'}:null}> {title}</h2>
  {loading? <Skeleton variant="text" width={100} height={20} /> : <p>{text}</p>}
 
 </div>

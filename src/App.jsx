@@ -29,9 +29,8 @@ import WaittingList from "./pages/waitingLists";
 import Login from "./pages/login";
 
 import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
 function App() {
-  let isLoggedIn=!!Cookies.get('token')
+  let isLoggedIn =useSelector(state=>state.auth.isAuthenticated)
   function AuthGuard({ children }) {
 
 

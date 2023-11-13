@@ -25,6 +25,7 @@ import { Modal, Button, Form } from "react-bootstrap"; // assuming you are using
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
+import TimeCounter from "../components/TimeCounter.jsx";
 const PosPage = () => {
   const [showfirstModal, setShowFirst] = useState(false);
   const [firstTime, setFirstTime] = useState(true); // or false
@@ -33,8 +34,11 @@ const PosPage = () => {
   const [sessionDrawer, setSessionDrawer] = useState();
   const [acitve, setactive] = useState(0);
   const [checkout, setcheckout] = useState(0);
-  function changeActive(index) {
-    setactive(index);
+  function changeActive(index,disabled) {
+if(!disabled)
+{
+  setactive(index);
+}
   }
 
   function handelfirstModalClose(temp) {
@@ -72,6 +76,7 @@ const PosPage = () => {
   const [menu, setMenu] = useState([]);
   function addtoMenu(img, text, price, extra, count, id) {
     let flag = true;
+    let TempIndex
     let newMenu = [...menu];
     const tempExtra = extra
       .filter((item) => item.count > 0)
@@ -84,10 +89,12 @@ const PosPage = () => {
     menu.forEach((item, index) => {
       if (item.text == text) {
         flag = false;
+   
         const newItem = [...menu];
+        console.log(newItem[index] , count)
         newItem[index] = {
           ...newItem[index],
-          count: newItem[index].count + count,
+          qty: newItem[index].qty + count,
           extra: [...tempExtra],
         };
         setMenu([...newItem]);
@@ -104,7 +111,7 @@ const PosPage = () => {
         extraPrice = extraPrice + item.price * item.count;
       });
     }
-    console.log(menu);
+  
   }
 
   //scroll functions
@@ -149,8 +156,9 @@ const PosPage = () => {
       .get("/categories")
       .then((req) => {
         setCategoriesLoading(false);
-        
-        setCategories(req.data.data);
+        const sortedData = req.data.data.sort((a, b) => b.products_count - a.products_count);
+
+        setCategories(sortedData);
       })
       .catch((err) => {
 
@@ -220,7 +228,7 @@ const PosPage = () => {
             <StaticCard
               loading={sessionLoading}
               img={comp}
-              text={sessionData?.start ||       Cookies.get('start')}
+              text={<TimeCounter />}
               title={"بدايه الجلسه"}
             />
           </div>
@@ -280,6 +288,7 @@ const PosPage = () => {
                       index={index}
                       title={cate.title}
                       text={`وجبة ${cate.products_count}`}
+                      disabled={cate.products_count == 0}
                       forCate
                       img={cate.image}
                       id={cate.id}

@@ -38,20 +38,15 @@ function handleLogOut()
         </div>
       </div>
       <div className={classes.Title}>
-        <div className={classes.posPoint}>
-          <img src={shop} />
-          نقطة البيع
+        <div className={classes.logOut} onClick={()=>
+        {
+          dispatch(logout())
+          router('/login')
+        }} >
+       
+           تسجيل خروج
         </div>
-        <div className={classes.icon}>
-          <DarkModeOutlinedIcon
-            sx={{ color: "#292D32", height: "36px", width: "36px" }}
-          />
-        </div>
-        <div className={classes.icon}>
-          <NotificationsNoneOutlinedIcon
-            sx={{ color: "#292D32", height: "36px", width: "36px" }}
-          />
-        </div>
+      
       </div>
     </div>
   );

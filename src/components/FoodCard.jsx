@@ -97,102 +97,80 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
             className="container mt-3 p-3"
             style={{ backgroundColor: "white" }}
           >
-            <div>
-              <div className="d-flex justify-content-between">
-                <span>اختر الحجم</span>
-                <span className="reqBadge">مطلوب</span>
-              </div>
-              <div>
-                <div
-                  className="d-flex gap-2"
-                  style={{
-                    marginBottom: "10px",
-                    paddingBottom: "10px",
-                    borderBottom: "1px solid #CCD3D9",
-                  }}
-                >
-                  <div className="checkDiv active">
-                    {" "}
-                    <div></div>
-                  </div>
-                  <span>وسط (15.00 ر.س)</span>
-                </div>
-                <div className="d-flex gap-2">
-                  <div className="checkDiv"></div>
-                  <span>وسط (15.00 ر.س)</span>
-                </div>
-              </div>
-            </div>
+           
           </div>
+        {
+          extra.length ? 
           <div
-            className="container mt-3 p-3"
-            style={{ backgroundColor: "white" }}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <span> الاضافات</span>
-              <span
-                className="reqBadge"
-                style={{ color: "#6A6E83", backgroundColor: "#CCD3D9" }}
-              >
-                اختياري
-              </span>
-            </div>
-            <div>
-              {extra.map((item, index) => {
-                return (
-                  <>
-                    <div
-                      className=" d-flex gap-2 justify-content-between align-items-center"
-                      style={{
-                        marginBlock: `${index % 2 != 0 ? "0px" : "10px"}`,
-                        paddingBlock: `${index % 2 != 0 ? "10px" : "0px"}`,
-                        borderBlock: `${
-                          index % 2 != 0 ? "1px solid #CCD3D9" : "none"
-                        }`,
-                      }}
-                    >
-                      <label
-                        className="form-check-label"
-                        for="flexCheckDefault"
-                      >
-                        {item.title}{" "}
-                        <span
-                          style={{ marginInlineStart: "5px", color: "#6A6E83" }}
-                        >
-                          {" "}
-                          ({item.price} ر.س ){" "}
-                        </span>
-                      </label>
-                      <div className="d-flex addMinus">
-                        <span
-                          onClick={() => {
-                            if (item.count > 0) {
-                              const newExtra = [...extra];
-                              newExtra[index].count = newExtra[index].count - 1;
-                              setExtra(newExtra);
-                            }
-                          }}
-                        >
-                          <img src={minus} />
-                        </span>
-                        <span>{item.count}</span>
-
-                        <span
-                          onClick={() => {
-                            const newExtra = [...extra];
-                            newExtra[index].count = newExtra[index].count + 1;
-                            setExtra(newExtra);
-                          }}
-                        >
-                          <img src={plus} />
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
+          className="container mt-3 p-3"
+          style={{ backgroundColor: "white" }}
+        >
+          <div className="d-flex justify-content-between align-items-center">
+            <span> الاضافات</span>
+            <span
+              className="reqBadge"
+              style={{ color: "#6A6E83", backgroundColor: "#CCD3D9" }}
+            >
+              اختياري
+            </span>
           </div>
+          <div>
+            {extra.map((item, index) => {
+              return (
+                <>
+                  <div
+                    className=" d-flex gap-2 justify-content-between align-items-center"
+                    style={{
+                      marginBlock: `${index % 2 != 0 ? "0px" : "10px"}`,
+                      paddingBlock: `${index % 2 != 0 ? "10px" : "0px"}`,
+                      borderBlock: `${
+                        index % 2 != 0 ? "1px solid #CCD3D9" : "none"
+                      }`,
+                    }}
+                  >
+                    <label
+                      className="form-check-label"
+                      for="flexCheckDefault"
+                    >
+                      {item.title}{" "}
+                      <span
+                        style={{ marginInlineStart: "5px", color: "#6A6E83" }}
+                      >
+                        {" "}
+                        ({item.price} ر.س ){" "}
+                      </span>
+                    </label>
+                    <div className="d-flex addMinus">
+                      <span
+                        onClick={() => {
+                          if (item.count > 0) {
+                            const newExtra = [...extra];
+                            newExtra[index].count = newExtra[index].count - 1;
+                            setExtra(newExtra);
+                          }
+                        }}
+                      >
+                        <img src={minus} />
+                      </span>
+                      <span>{item.count}</span>
+
+                      <span
+                        onClick={() => {
+                          const newExtra = [...extra];
+                          newExtra[index].count = newExtra[index].count + 1;
+                          setExtra(newExtra);
+                        }}
+                      >
+                        <img src={plus} />
+                      </span>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        </div>:null
+        }
         
           <div
             className="d-flex justify-content-between modalBtn"

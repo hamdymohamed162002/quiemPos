@@ -15,8 +15,9 @@ import { motion } from "framer-motion";
 import { Modal } from "react-bootstrap";
 import animaion from "../assets/done.json";
 import Lottie from "react-lottie";
-const OrderCheckOut = ({ menu, setMenu, setShow, checkout,setcheckout }) => {
-  const [showSuccesModal,setShowSuccesModal]=useState(false)
+import { TextField } from "@mui/material";
+const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout }) => {
+  const [showSuccesModal, setShowSuccesModal] = useState(false);
   const [customer_id, setcustomer_id] = useState(null);
   const [customerError, setcustomerError] = useState(false);
   const [table, settable] = useState(null);
@@ -24,7 +25,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout,setcheckout }) => {
   const [company, setcompany] = useState(null);
   const [companyError, setcompanyError] = useState(false);
   const [productError, setproductError] = useState(false);
-
+const [payMethod,setpayMethod]=useState("cash")
   const [orderLoading, setorderLoading] = useState(false);
   const [orderSuccess, setorderSuccess] = useState(false);
   const [orderError, setorderError] = useState(false);
@@ -36,8 +37,8 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout,setcheckout }) => {
     setMenu(newMenu);
   }
   function discountCalc(total, discount) {
-    
-    return Math.round(total - (discount/100 * total));}
+    return Math.round(total - (discount / 100) * total);
+  }
 
   useEffect(() => {
     axios
@@ -50,22 +51,22 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout,setcheckout }) => {
       });
   }, []);
   function searchById(collection, targetId) {
-    console.log(collection , targetId)
+    console.log(collection, targetId);
     for (let i = 0; i < collection.length; i++) {
-        if (collection[i].id === targetId) {
-            return collection[i];
-        }
+      if (collection[i].id === targetId) {
+        return collection[i];
+      }
     }
-    return null;  // Return null if the object with the given ID is not found
-}
-const defaultOptions = {
-  loop: false,
-  autoplay: true,
-  animationData: animaion,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid ",
-  },
-};
+    return null; // Return null if the object with the given ID is not found
+  }
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: animaion,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid ",
+    },
+  };
 
   function editHandler(price, text, img, index, extra) {
     setShowModal(true);
@@ -151,7 +152,7 @@ const defaultOptions = {
       products: menu,
       order_type: acitve == 1 ? "takeaway" : acitve == 2 ? "car" : "",
       cash_amount: checkout,
-      payment_method: "cash",
+      payment_method: payMethod,
       coupon: coupon,
     };
     if (acitve == 0) {
@@ -161,7 +162,8 @@ const defaultOptions = {
     if (acitve == 3) {
       postData.order_type = "company";
       postData.company = company;
-      postData.cash_amount=checkout + (searchById(CompanyToSelect,+company)?.extra || Number(0)) 
+      postData.cash_amount =
+        checkout + (searchById(CompanyToSelect, +company)?.extra || Number(0));
     }
     setorderLoading(true);
     axios
@@ -169,13 +171,13 @@ const defaultOptions = {
       .then((res) => {
         console.log(res.data);
         setorderLoading(false);
-        setShowSuccesModal(true)
+        setShowSuccesModal(true);
         setorderSuccess(true);
-        setMenu([])
-        setcompany(null)
-        settable(null)
-        setcheckout(0)
-        setdiscount(null)
+        setMenu([]);
+        setcompany(null);
+        settable(null);
+        setcheckout(0);
+        setdiscount(null);
       })
       .catch((err) => {
         setorderLoading(false);
@@ -293,18 +295,12 @@ const defaultOptions = {
         {acitve == 0 ? (
           <div className="mt-3">
             <label className=" mb-1">رقم الطاولة </label>
-
-            <select
-              style={{ display: "flex", flex: "1", fontSize: "16px" }}
-              className="form-select form-select-lg  "
+            <input
+              className="form-control"
+              placeholder="رقم الطاولة "
               onChange={(e) => settable(e.target.value)}
-              aria-label=".form-select-lg example"
-            >
-              <option selected> اختر رقم الطاولة </option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+            />
+
             {tableError && (
               <div className="mt-1" style={{ color: "red" }}>
                 يرجي اختيار رقم الطاولة
@@ -405,38 +401,69 @@ const defaultOptions = {
           )}
         </div>
 
-        {
-          checkout ? (<div className="mt-3">
-          <h4>
-          ملخص الطلب
-          </h4>
-          <div className="d-flex justify-content-between">
-            <div style={{fontSize:'18px'}}>تكلفة المنتجات</div>
-            <div style={{fontSize:'18px'}}> {checkout} ر.س </div>
+        {checkout ? (
+          <div className="mt-3">
+            <h4>ملخص الطلب</h4>
+            <div className="d-flex justify-content-between">
+              <div style={{ fontSize: "18px" }}>تكلفة المنتجات</div>
+              <div style={{ fontSize: "18px" }}> {checkout} ر.س </div>
+            </div>
+            {company && (
+              <div className="d-flex justify-content-between">
+                <div style={{ fontSize: "18px" }}>رسوم الخدمة </div>
+                <div style={{ fontSize: "18px" }}>
+                  {" "}
+                  {searchById(CompanyToSelect, +company)?.extra} ر.س
+                </div>
+              </div>
+            )}
+            {discount ? (
+              <div className="d-flex justify-content-between">
+                <div style={{ fontSize: "18px" }}> الخصم </div>
+                <div style={{ fontSize: "18px" }}> {discount}%</div>
+              </div>
+            ) : null}
+            <div
+              className="d-flex justify-content-between"
+              style={{ paddingTop: "10px", borderTop: "1px solid #A8B1CE" }}
+            >
+              <div style={{ fontSize: "18px", fontWeight: "600" }}>
+                {" "}
+                اجمالي التكلفة
+              </div>
+              <div style={{ fontSize: "18px" }}>
+                {" "}
+                {discount
+                  ? discountCalc(
+                      checkout +
+                        (searchById(CompanyToSelect, +company)?.extra ||
+                          Number(0)),
+                      discount
+                    )
+                  : checkout +
+                    (searchById(CompanyToSelect, +company)?.extra ||
+                      Number(0))}{" "}
+                ر.س{" "}
+              </div>
+            </div>
+            <h4 className="mt-3 mb-2"> طريقة الدفع</h4>
+            <div className="row justifty-content-between">
+              <div className=" col-6">
+                <div className={payMethod=='cash'?"payType active":"payType"} onClick={()=>setpayMethod('cash')}>
+                نقدي
+                </div>
+              
+              </div>
+              <div className=" col-6">
+              
+              <div className={payMethod=='visa'?"payType active":"payType"} onClick={()=>setpayMethod('visa')}>
+              شبكة
+                </div>
+              </div>
+              </div>
           </div>
-        {
-          company &&  <div className="d-flex justify-content-between">
-            <div style={{fontSize:'18px'}}>رسوم الخدمة </div>
-            <div style={{fontSize:'18px'}}> {searchById(CompanyToSelect,+company)?.extra} ر.س</div>
-          </div>
-        }
-        {
-           discount ?  <div className="d-flex justify-content-between">
-           <div style={{fontSize:'18px'}}> الخصم </div>
-           <div style={{fontSize:'18px'}}> {discount}%</div>
-         </div>:null
-        }
-        <div className="d-flex justify-content-between" style={{paddingTop:'10px',borderTop:'1px solid #A8B1CE'}}>
-            <div style={{fontSize:'18px',fontWeight:"600"}}> اجمالي التكلفة</div>
-            <div style={{fontSize:'18px'}}> {
-            discount?discountCalc((checkout + (searchById(CompanyToSelect,+company)?.extra || Number(0))),discount): 
-            (checkout + (searchById(CompanyToSelect,+company)?.extra || Number(0)))
-            } ر.س </div>
-          </div>
-        </div>
-        
-        ):null
-        }
+        ) : null}
+          
         <button
           className="bottomCart"
           style={{ transform: "translateX(0%) !important", border: "none" }}
@@ -451,35 +478,35 @@ const defaultOptions = {
           </div>
         )}
       </div>
-      <Modal show={showSuccesModal} onHide={()=>setShowSuccesModal(false)}>
-   <Modal.Body>
-   <div>
-                  <Lottie
-                    key={Math.random()}
-                    options={defaultOptions}
-                    height={200}
-                    width={200}
-                  />
+      <Modal show={showSuccesModal} onHide={() => setShowSuccesModal(false)}>
+        <Modal.Body>
+          <div>
+            <Lottie
+              key={Math.random()}
+              options={defaultOptions}
+              height={200}
+              width={200}
+            />
 
-                  <motion.div
-                    key={acitve + Math.random()}
-                    style={{
-                      textAlign: "center",
-                      fontSize: "28px",
-                      color: "#55BF40",
-                    }}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: 0.8,
-                      ease: [0, 0.71, 0.2, 1.01],
-                    }}
-                  >
-                   تمت اضافة الطلب
-                  </motion.div>
-                </div>
-   </Modal.Body>
+            <motion.div
+              key={acitve + Math.random()}
+              style={{
+                textAlign: "center",
+                fontSize: "28px",
+                color: "#55BF40",
+              }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.8,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
+              تمت اضافة الطلب
+            </motion.div>
+          </div>
+        </Modal.Body>
       </Modal>
     </>
   );

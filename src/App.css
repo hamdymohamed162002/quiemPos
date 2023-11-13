@@ -163,9 +163,17 @@
   .overscrollMobile{
     user-select: none;
   }
-  .overscrollMobile::-webkit-scrollbar {
-    display: none;
+  .overscrollMobile {
+    scrollbar-width: thin;  /* For Firefox */
+    scrollbar-color: transparent transparent;  /* For Firefox */
+    overflow: -moz-scrollbars-none;  /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
   }
+  
+  .overscrollMobile::-webkit-scrollbar {
+    display: none;  /* For Chrome, Safari, and Opera */
+  }
+  
 @media(max-width:991px)
 {
   .overscrollMobile{

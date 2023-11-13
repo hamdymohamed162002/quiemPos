@@ -9,8 +9,9 @@ import axios from '../axios';
 import {login} from '../redux'
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
+
 const Login = () => {
-  let isLoggedIn=!!Cookies.get('token')
+  let isLoggedIn =useSelector(state=>state.auth.isAuthenticated)
       const router = useNavigate();
       const [loading,setloading]=useState(false);
       const [error,seterror]=useState();
@@ -39,7 +40,7 @@ router('/')
   });
 
   useEffect(() => {
-  
+  console.log(isLoggedIn)
     if(isLoggedIn){
         router('/')
 
