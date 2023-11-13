@@ -1692,3 +1692,64 @@ filter: none;
   }
 }
     
+.WaitingListContainer{
+  background-color: #1F1F1F;
+  width: 100%;
+  min-height: 100vh;
+}
+.CurrentResturant{
+  display: flex;
+  justify-content: space-between
+  ;
+  flex-wrap: wrap;
+color: white;
+
+padding-block: 20px;
+border-bottom: .5px solid white;
+}
+.CurrentTime{
+  display: flex;
+  align-items: center;
+  background-color: #2082D8;
+  border-radius: 5px;
+  text-align: center;
+  gap: 10px;
+  padding: 10px;
+}
+.CurrentOrder{
+  max-width: 100%;
+  max-height: 100%;
+  width: 540px;
+  display: flex;
+  height:  540px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center
+  ;
+  border: 1px solid white;
+}
+.CurrentOrder h2{
+  font-size: 54px;
+}
+.PreperOrder{
+  background-color: #D78213;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
+.theCLockContainer{
+  padding: 10px;
+  border: 1.5px #D78213 solid;
+  color: #D78213;
+  font-size: 22px !important;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+
+}

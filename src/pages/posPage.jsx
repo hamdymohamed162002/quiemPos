@@ -19,12 +19,55 @@ import ClientModal from "../components/addClientModal";
 import Lottie from "react-lottie";
 import { motion } from "framer-motion";
 import animaion from "../assets/falied.json";
+import moment from "moment";
+
+import { Modal, Button, Form } from "react-bootstrap"; // assuming you are using Bootstrap
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Cookies from "js-cookie";
 const PosPage = () => {
+  const [showfirstModal, setShowFirst] = useState(false);
+  const [firstTime, setFirstTime] = useState(true); // or false
+  const [postSessionLoading, setPostSessionLoading] = useState(false); // or false
+  const [sessionData, setSessionData] = useState(); // or false
+  const [sessionDrawer, setSessionDrawer] = useState();
   const [acitve, setactive] = useState(0);
   const [checkout, setcheckout] = useState(0);
   function changeActive(index) {
     setactive(index);
   }
+
+  function handelfirstModalClose(temp) {
+    if (sessionDrawer || temp) {
+      setShowFirst(false);
+    }
+  }
+  const validationSchema = Yup.object({
+    number: Yup.string()
+      .required("الرجاء إدخال المبلغ")
+      .matches(/^\d+$/, "يجب أن يكون الرقم صحيحًا"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      number: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      // Handle form submission logic here
+      setSessionDrawer(values.number);
+      setPostSessionLoading(true)
+      axios
+        .post("/session", { drawer: values.number })
+        .then((res) => {
+          console.log(res);
+          setPostSessionLoading(false)
+        })
+        .catch((err) => {});
+      // Close the modal
+      handelfirstModalClose(values.number);
+    },
+  });
 
   const [menu, setMenu] = useState([]);
   function addtoMenu(img, text, price, extra, count, id) {
@@ -60,7 +103,6 @@ const PosPage = () => {
       tempExtra.forEach((item) => {
         extraPrice = extraPrice + item.price * item.count;
       });
-    
     }
     console.log(menu);
   }
@@ -107,6 +149,7 @@ const PosPage = () => {
       .get("/categories")
       .then((req) => {
         setCategoriesLoading(false);
+        
         setCategories(req.data.data);
       })
       .catch((err) => {
@@ -120,6 +163,42 @@ const PosPage = () => {
       });
     }
   }, [categories]);
+  useEffect(() => {
+   if(firstTime){
+    axios.get("/session")
+    .then((res) => {
+      setSessionData(res.data)
+      setSessionLoading(false);
+      if(!Cookies.get('start'))
+      {
+        Cookies.set('start', moment().format("HH:mm:SS L"))
+      }
+    })
+    .catch((err) => {
+      setShowFirst(true);
+      setFirstTime(false);
+    });}
+   else{
+
+    if(!postSessionLoading)
+    {
+      axios
+    .get("/session")
+    .then((res) => {
+      setSessionData(res.data)
+      setSessionLoading(false);
+      if(!Cookies.get('start'))
+      {
+        Cookies.set('start', moment().format("HH:mm:SS L"))
+      }
+    })
+    .catch((err) => {
+     
+    });
+    }
+   }
+  }, [sessionDrawer,firstTime,postSessionLoading]);
+
 
   const defaultOptions = {
     loop: false,
@@ -141,14 +220,14 @@ const PosPage = () => {
             <StaticCard
               loading={sessionLoading}
               img={comp}
-              text={"2023-09-13 05:51:26"}
+              text={sessionData?.start ||       Cookies.get('start')}
               title={"بدايه الجلسه"}
             />
           </div>
           <div className="col-lg-3 col-md-6 col-12 mt-2">
             <StaticCard
               img={box}
-              text={"13"}
+              text={sessionData?.orders}
               title={" عدد الطلبات"}
               loading={sessionLoading}
             />
@@ -156,7 +235,7 @@ const PosPage = () => {
           <div className="col-lg-3 col-md-6 col-12 mt-2">
             <StaticCard
               img={cash}
-              text={"13"}
+              text={sessionData?.cash}
               title={" اجمالي الكاش     "}
               loading={sessionLoading}
             />
@@ -164,7 +243,7 @@ const PosPage = () => {
           <div className="col-lg-3 col-md-6 col-12 mt-2">
             <StaticCard
               img={share}
-              text={"13"}
+              text={sessionData?.net }
               title={"  اجمالي الشبكه"}
               loading={sessionLoading}
             />
@@ -275,11 +354,45 @@ const PosPage = () => {
             </div>
           </div>
           <div className="col-lg-4 col-md-12 mt-3">
-            <OrderCheckOut checkout={checkout} menu={menu} setMenu={setMenu} setShow={setShow} setcheckout={setcheckout} />
+            <OrderCheckOut
+              checkout={checkout}
+              menu={menu}
+              setMenu={setMenu}
+              setShow={setShow}
+              setcheckout={setcheckout}
+            />
           </div>
         </div>
       </div>
       <ClientModal show={show} setShow={setShow} />
+      <Modal show={showfirstModal} onHide={handelfirstModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title> المبلغ الحالي</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group controlId="formNumber">
+              <Form.Label>الرقم</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="ادخل المبلغ"
+                name="number"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.number}
+                isInvalid={formik.touched.number && formik.errors.number}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.number}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="mt-3">
+              ادخال
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

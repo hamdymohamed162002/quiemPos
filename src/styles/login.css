@@ -1,0 +1,36 @@
+.bg-image{
+    padding: 4px;
+    width: 50%;
+    height: 100vh;
+}
+.bg-image img{
+width: 100%;
+object-fit: cover;
+border-radius: 10px;
+height: 100%;
+}
+
+.login-content{
+    width: 50%;
+    display: flex;
+    align-items: center;
+  justify-content: center;
+ 
+}
+.login-btn{
+    width: 100%;
+    border-radius: 6px;
+    background: linear-gradient(45deg, rgb(59, 76, 162) 0%, rgba(19,180,215,1) 100%);
+} *{
+    font-family: 'Rubik', sans-serif;
+
+ }@media screen and (max-width: 1000px){
+    .bg-image{
+        display: none;
+    }
+    .login-content{
+        width: 100%;
+padding-block: 30px;
+
+    }
+}
