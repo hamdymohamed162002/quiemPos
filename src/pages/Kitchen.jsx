@@ -221,7 +221,7 @@ const Kitchen = () => {
       >
   
         <div className="row mt-1">
-          <div className="col-lg-8 col-md-12 mt-3">
+          <div className="col-lg-9 col-md-12 mt-3">
             <div className="searchBar">
               <input placeholder="بحث ..." />
 
@@ -284,7 +284,7 @@ const Kitchen = () => {
            
             
           </div>
-          <div className="col-lg-4 col-md-12 mt-3">
+          <div className="col-lg-3 col-md-12 mt-3">
             <KitchenCheckout
         
             />

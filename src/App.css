@@ -397,6 +397,7 @@ display: none;
 .forMobile .rs-dropdown-toggle.rs-btn.rs-btn-default
 {
   padding-right: 0px !important;
+  background-color: white !important;
 }
 @media(max-width:991px)
 {
