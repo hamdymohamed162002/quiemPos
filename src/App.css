@@ -352,6 +352,10 @@ input:focus{
 font-size: 16px;
 margin: 0;
 }
+.KitchenCardHeaderImage  img{
+  min-width: 42px;
+  max-height: 42px;
+}
 .KitchenCard .KitchenCardHeaderImage{
   gap: 10px;
 }
