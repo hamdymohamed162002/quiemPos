@@ -1,4 +1,4 @@
-import packge from '../assets/package.png'
+import packge from '../assets/Package.png'
 import shop from '../assets/shop-outline.png'
 const KitchenCard = ({ended}) => {
     return ( 
