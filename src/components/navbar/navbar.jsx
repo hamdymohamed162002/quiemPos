@@ -38,13 +38,13 @@ function handleLogOut()
         </div>
       </div>
       <div className={classes.Title}>
-        <div className={classes.logOut} onClick={()=>
+        <div className={classes.posPoint} onClick={()=>
         {
           dispatch(logout())
           router('/login')
         }} >
        
-           تسجيل خروج
+           ايقاف مؤقت
         </div>
       
       </div>

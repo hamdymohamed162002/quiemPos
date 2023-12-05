@@ -98,12 +98,7 @@ const Order = ({ title, text, price = 0 }) => {
         >
           <div className="d-flex justify-content-between">
             <span> الاضافات</span>
-            <span
-              className="reqBadge"
-              style={{ color: "#6A6E83", backgroundColor: "#CCD3D9" }}
-            >
-              اختياري
-            </span>
+      
           </div>
           <div>
             <div

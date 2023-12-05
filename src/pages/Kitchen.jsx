@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import { Skeleton } from "@mui/material";
 import ClientModal from "../components/addClientModal";
 import Lottie from "react-lottie";
-
+import FilterListIcon from '@mui/icons-material/FilterList';
 import animaion from "../assets/falied.json";
 import moment from "moment";
 import { AnimatePresence, motion } from "framer-motion"
@@ -26,7 +26,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
 import TimeCounter from "../components/TimeCounter.jsx";
-const PosPage = () => {
+import KitchenCard from "../components/KitchenCard.jsx";
+import KitchenCheckout from "../components/KitchenCheckout.jsx";
+import {Dropdown } from "rsuite"
+const Kitchen = () => {
   const [updated, setUpdated] = useState(false);
   const [showfirstModal, setShowFirst] = useState(false);
   const [firstTime, setFirstTime] = useState(true); // or false
@@ -216,40 +219,7 @@ const PosPage = () => {
       <div
         style={{ background: "#F8F9FD", padding: "30px", minHeight: "100vh" }}
       >
-        <div className="row">
-          <div className="col-lg-3 col-md-6 col-12 mt-2">
-            <StaticCard
-              loading={sessionLoading}
-              img={comp}
-              text={<TimeCounter startFrom={Cookies.get("start")} />}
-              title={"بدايه الجلسه"}
-            />
-          </div>
-          <div className="col-lg-3 col-md-6 col-12 mt-2">
-            <StaticCard
-              img={box}
-              text={sessionData?.orders}
-              title={" عدد الطلبات"}
-              loading={sessionLoading}
-            />
-          </div>
-          <div className="col-lg-3 col-md-6 col-12 mt-2">
-            <StaticCard
-              img={cash}
-              text={sessionData?.cash}
-              title={" اجمالي الكاش     "}
-              loading={sessionLoading}
-            />
-          </div>
-          <div className="col-lg-3 col-md-6 col-12 mt-2">
-            <StaticCard
-              img={share}
-              text={sessionData?.net}
-              title={"  اجمالي الشبكه"}
-              loading={sessionLoading}
-            />
-          </div>
-        </div>
+  
         <div className="row mt-1">
           <div className="col-lg-8 col-md-12 mt-3">
             <div className="searchBar">
@@ -257,117 +227,66 @@ const PosPage = () => {
 
               <div className="searchIcon"></div>
             </div>
-
-            <div
-              className=" overscrollMobile mt-3"
-              style={{
-                overflowX: "auto",
-                whiteSpace: "nowrap",
-                width: "100%",
-              }}
-              ref={containerRef}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-            >
-              <div className="d-flex gap-5 mobileScroller">
-                {categories &&
-                  !categoriesLoading &&
-                  categories.map((cate, index) => (
-                    <StaticCard
-                      changeActive={changeActive}
-                      active={acitve}
-                      loading={categoriesLoading}
-                      index={index}
-                      title={cate.title}
-                      text={`وجبة ${cate.products_count}`}
-                      disabled={cate.products_count == 0}
-                      forCate
-                      img={cate.image}
-                      id={cate.id}
-                      setproducts={setproducts}
-                      setproductError={setproductError}
-                    />
-                  ))}
-                {categoriesLoading && (
-                  <>
-                    {[0, 1, 2, 3].map(() => (
-                      <div className={"staticCard formobile "}>
-                        <Skeleton
-                          variant="rectangular"
-                          width={50}
-                          height={50}
-                        />
-                        <div>
-                          <Skeleton variant="text" width={30} height={20} />
-                          <Skeleton variant="text" width={100} height={20} />
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
             <div className="row mt-3">
-           <AnimatePresence mode="wait">
-           {products &&
-                !productError &&
-                products?.map((item, index) => {
-                  return (
-                    <motion.div key={item.created_at}   initial={{ opacity: 0 ,y:100}}
-                    animate={{ opacity: 1, y:0 }}
-                    exit={{ opacity: 0 ,y:100 }} className="col-lg-3 col-md-12 mt-3">
-                      <FoodCard
-                        addtoMenu={addtoMenu}
-                        img={item.image}
-                        text={item.title}
-                        price={item.price}
-                        id={item.id}
-                        setcheckout={setcheckout}
-                      />
-                    </motion.div >
-                  );
-                })}
-           </AnimatePresence>
-              {productError == "noProducts" ? (
-                <div>
-                  <Lottie
-                    key={acitve}
-                    options={defaultOptions}
-                    height={200}
-                    width={200}
-                  />
+                <div className="forDesktop row p-0">
+                    <div className="col-lg-4"> 
+                    <div className="SelectCardStatus" style={{borderColor:'#1F81E2' ,color:'#1F81E2'}}>
+                    طلبات جديدة
+                    <div className="badge" style={{backgroundColor:'#1F81E2'}}>
+                        7
+                    </div>
+                        </div> 
+                        </div>
+                    <div className="col-lg-4"> 
+                    <div className="SelectCardStatus" style={{borderColor:'#E28D1F' ,color:'#E28D1F'}}>
+                    جاري الطبخ
+                    <div className="badge" style={{backgroundColor:'#E28D1F'}}>
+                        7
+                    </div>
+                        </div> 
+                      </div>
 
-                  <motion.div
-                    key={acitve + Math.random()}
-                    style={{
-                      textAlign: "center",
-                      fontSize: "28px",
-                      color: "#D0021B",
-                    }}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: 0.8,
-                      ease: [0, 0.71, 0.2, 1.01],
-                    }}
-                  >
-                    لا يوجد منتجات
-                  </motion.div>
+                    <div className="col-lg-4">
+                    <div className="SelectCardStatus" style={{borderColor:'#29B84A' ,color:'#29B84A'}}>
+                    تم التسليم
+                    <div className="badge" style={{backgroundColor:'#29B84A'}}>
+                        7
+                    </div>
+                        </div>   </div>
+
                 </div>
-              ) : null}
+            <div className="d-flex">
+            <div className="forMobile">
+            <Dropdown title="تصفية" icon={<FilterListIcon />}>
+    <Dropdown.Item>          طلبات جديدة</Dropdown.Item>
+    <Dropdown.Item>  جاري الطبخ</Dropdown.Item>
+    <Dropdown.Item>     تم التسليم</Dropdown.Item>
+
+  </Dropdown>
+                </div>
             </div>
+            </div>
+<div className="row mt-2">
+    <div className="col-lg-4">
+<KitchenCard/>
+<KitchenCard/>
+<KitchenCard/>
+    </div>
+    <div className="col-lg-4">
+<KitchenCard/>
+<KitchenCard/>
+
+    </div>
+    <div className="col-lg-4">
+<KitchenCard ended/>
+    </div>
+</div>
+           
+            
           </div>
           <div className="col-lg-4 col-md-12 mt-3">
-            <OrderCheckOut
-              checkout={checkout}
-              menu={menu}
-              setMenu={setMenu}
-              setShow={setShow}
-              updated={updated}
-              setcheckout={setcheckout}
-              setUpdated={setUpdated}
+            <KitchenCheckout
+        
             />
           </div>
         </div>
@@ -405,4 +324,4 @@ const PosPage = () => {
   );
 };
 
-export default PosPage;
+export default Kitchen;

@@ -1,6 +1,7 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EditModal from "./editModal";
+
 import { useState } from "react";
 const MenuCard = ({ img, text, price, count, index, delte, extra,setMenu,id ,editHandler ,menu}) => {
     const [showModal, setShowModal] = useState(false);
@@ -23,16 +24,22 @@ const MenuCard = ({ img, text, price, count, index, delte, extra,setMenu,id ,edi
         </div>
       </div>
       <div>
-      <h5>
+     {
+      extra.length ?
+      <>
+       <h5 className="mt-2">
         الاضافات
       </h5>
       <div>
+        <ul style={{listStyle:'none'}}>
         {
             extra.map((item,index)=>{
-                return <span style={{marginInlineEnd:'5px'}}> {item.title}x{item.qty} </span>
+                return <li style={{marginInlineEnd:'5px'}}> {item.title} <span style={{color:'rgba(31,129,226,1)',fontWeight:'600'}} >  x {item.qty} </span> </li>
             })
         }
-      </div>
+        </ul>
+      </div></>:null
+     }
       </div>
      </div>
       <div className="d-flex gap-2">

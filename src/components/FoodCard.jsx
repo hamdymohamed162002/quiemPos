@@ -1,11 +1,12 @@
 import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import minus from "../assets/minus.png";
-import plus from "../assets/plus.png";
+import RemoveIcon from '@mui/icons-material/Remove';
+
 import exit from "../assets/close.png";
 import edit from "../assets/edit-2.png";
 import axios from "../axios";
+import defaullt from '../assets/default.png'
 const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
   const [showModal, setShowModal] = useState(false);
   const [count, setcount] = useState(1);
@@ -13,7 +14,8 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
   const [totalPrice, settotalPrice] = useState(price);
   useEffect(() => {
     axios.get(`/extra/${id}`).then((res) => {
-      const ExtraWithCount = res.data.data.map((item) => {
+     
+      let ExtraWithCount = res.data.data.map((item) => {
         return { ...item, count: 0 };
       });
       setExtra(ExtraWithCount);
@@ -35,26 +37,29 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
 
   return (
     <>
-      <div className="foodCard">
+      <div className="foodCard" style={{cursor:'pointer'}} onClick={() => setShowModal(true)}>
         <img src={img} />
         <div>
           <h3 className="mt-2">{text}</h3>
           <div className="d-flex justify-content-between align-items-center">
-            <div onClick={() => setShowModal(true)} className="add-icon">
+            <div  className="add-icon">
               {" "}
-              <AddIcon sx={{ color: "white", width: "26px", height: "26px" }} />
+              <AddIcon  sx={{ color: "white", width: "26px", height: "26px" }} />
             </div>
             <div> {price} ر.س</div>
           </div>
         </div>
       </div>
       <Modal size="lg" show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton></Modal.Header>
+        <Modal.Header closeButton>
+        <h2 >{text} </h2>
+        </Modal.Header>
         <Modal.Body>
           {" "}
-          <div className="container" style={{ backgroundColor: "white" }}>
-            <div className="food-text p-3 ">
-              <h2>{text} </h2>
+          <div className="container d-flex gap-2" style={{ backgroundColor: "white" }}>
+            <img src={img} style={{width:'100px',height:'100px', borderRadius:'5px'}} />
+            <div className="food-text  ">
+              <h2 style={{fontSize:'20px'}}>{text} </h2>
 
               <div className="d-flex justify-content-between ">
                 <a
@@ -68,8 +73,9 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
                   {" "}
                   {price} ر.س
                 </a>
-                <div className="d-flex addMinus">
+                <div className="d-flex addMinus align-items-center ">
                   <span
+                  style={{cursor:'pointer'}}
                     onClick={() => {
                       if (count > 0) {
                         setcount(count - 1);
@@ -77,17 +83,17 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
                       }
                     }}
                   >
-                    <img src={minus} />
+                    <RemoveIcon sx={{width:'28px' ,height:'28px'}} />
                   </span>
-                  <span>{count}</span>
+                  <span >{count}</span>
 
-                  <span
+                  <span    style={{cursor:'pointer'}}
                     onClick={() => {
                       setcount(count + 1);
                       settotalPrice(totalPrice + price);
                     }}
                   >
-                    <img src={plus} />
+                  <AddIcon sx={{width:'28px' ,height:'28px'}} />
                   </span>
                 </div>
               </div>
@@ -107,12 +113,7 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
         >
           <div className="d-flex justify-content-between align-items-center">
             <span> الاضافات</span>
-            <span
-              className="reqBadge"
-              style={{ color: "#6A6E83", backgroundColor: "#CCD3D9" }}
-            >
-              اختياري
-            </span>
+          
           </div>
           <div>
             {extra.map((item, index) => {
@@ -140,8 +141,8 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
                         ({item.price} ر.س ){" "}
                       </span>
                     </label>
-                    <div className="d-flex addMinus">
-                      <span
+                    <div className="d-flex addMinus align-items-center">
+                      <span    style={{cursor:'pointer'}}
                         onClick={() => {
                           if (item.count > 0) {
                             const newExtra = [...extra];
@@ -150,18 +151,18 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
                           }
                         }}
                       >
-                        <img src={minus} />
+                        <RemoveIcon sx={{width:'28px' ,height:'28px'}} />
                       </span>
                       <span>{item.count}</span>
 
-                      <span
+                      <span    style={{cursor:'pointer'}}
                         onClick={() => {
                           const newExtra = [...extra];
                           newExtra[index].count = newExtra[index].count + 1;
                           setExtra(newExtra);
                         }}
                       >
-                        <img src={plus} />
+                  <AddIcon sx={{width:'28px' ,height:'28px'}} />
                       </span>
                     </div>
                   </div>
@@ -172,7 +173,11 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
         </div>:null
         }
         
-          <div
+          
+        </Modal.Body>
+        <Modal.Footer>
+
+        <div
             className="d-flex justify-content-between modalBtn"
             style={{
               transform: "translateX(0%) !important",
@@ -185,7 +190,8 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
 
             <span className="totalPrice">{totalPrice} ر.س</span>
           </div>
-        </Modal.Body>
+        </Modal.Footer>
+
       </Modal>
     </>
   );

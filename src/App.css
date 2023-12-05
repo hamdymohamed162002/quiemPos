@@ -308,3 +308,102 @@ input:focus{
   border-radius: 8px;
   transition: .4s;
 }
+.SelectCardStatus{
+  display: flex;
+  gap: 5px;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  padding-block: 11px;
+  border: 1px solid rgba(86, 86, 86,0.2);
+  width: 100%;
+  background-color: white;
+}
+.SelectCardStatus .badge{
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+}
+
+.KitchenCard{
+  box-shadow: -1px 4px 11px 1px rgba(168,177,206,0.16);
+  -webkit-box-shadow: -1px 4px 11px 1px rgba(168,177,206,0.16);
+  padding: 20px;
+  border-radius: 8px;
+  -moz-box-shadow: -1px 4px 11px 1px rgba(168,177,206,0.16);
+  width: 100%;
+  background-color: white;
+}
+
+.KitchenCard .KitchenCardHeader
+{
+  border-bottom: 1px #A8B1CE solid;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+}
+.KitchenCard .KitchenCardHeaderImage h4{
+
+font-size: 16px;
+margin: 0;
+}
+.KitchenCard .KitchenCardHeaderImage{
+  gap: 10px;
+}
+.KitchenCard .KitchenCardHeaderImage p{
+  font-size: 14px;
+  margin: 0;
+  color: #6A6E83;
+}
+.KitchenCard .KitchenCardHeader .icon{
+  filter: invert(37%) sepia(86%) saturate(839%) hue-rotate(179deg) brightness(99%) contrast(94%);
+
+}
+.KitchenCardBody{
+  margin-top: 10px;
+}
+
+.KitchenCardBody .SubmitBtn{
+  background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
+  padding: 11px;
+  text-align: center;
+  color: white;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.KitchenCardBody .SubmitBtn.ended{
+background: rgba(31, 129, 227,0.2);
+color: #1F81E2;
+}
+.forDesktop{
+
+}
+.KitchenCheckot .icon{
+  filter: invert(37%) sepia(86%) saturate(839%) hue-rotate(179deg) brightness(99%) contrast(94%);
+}
+.forMobile{
+display: none;
+
+}
+.forMobile .rs-dropdown-toggle-caret.rs-icon
+{
+  display: none;
+}
+.forMobile .rs-dropdown-toggle.rs-btn.rs-btn-default
+{
+  padding-right: 0px !important;
+}
+@media(max-width:991px)
+{
+  .forDesktop{
+    display: none !important;
+  }
+  .forMobile{
+    display: block;
+  }
+}

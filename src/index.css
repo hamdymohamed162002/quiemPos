@@ -1083,7 +1083,7 @@ border-bottom: 1px solid #979797;
   color: white !important;
 }
 .food-text{
-  padding: 10px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1780,4 +1780,7 @@ border-bottom: .5px solid white;
 }
 .payType.active::before{
   opacity: 1;
+}
+.order-btn{
+  cursor: pointer;
 }

@@ -16,7 +16,7 @@ import { Modal } from "react-bootstrap";
 import animaion from "../assets/done.json";
 import Lottie from "react-lottie";
 import { TextField } from "@mui/material";
-const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout }) => {
+const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,setUpdated }) => {
   const [showSuccesModal, setShowSuccesModal] = useState(false);
   const [customer_id, setcustomer_id] = useState(null);
   const [customerError, setcustomerError] = useState(false);
@@ -25,7 +25,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout }) => {
   const [company, setcompany] = useState(null);
   const [companyError, setcompanyError] = useState(false);
   const [productError, setproductError] = useState(false);
-const [payMethod,setpayMethod]=useState("cash")
+  const [payMethod, setpayMethod] = useState("cash");
   const [orderLoading, setorderLoading] = useState(false);
   const [orderSuccess, setorderSuccess] = useState(false);
   const [orderError, setorderError] = useState(false);
@@ -85,8 +85,9 @@ const [payMethod,setpayMethod]=useState("cash")
         return { value: item.id, label: item.name };
       });
       setOptions(newOptions);
+      setUpdated(false)
     });
-  }, []);
+  }, [updated]);
   const [coupon, setcoupon] = useState("");
   const [couponError, setcouponError] = useState();
 
@@ -332,42 +333,43 @@ const [payMethod,setpayMethod]=useState("cash")
           </div>
         ) : null}
         <div className="mt-3">
-          <label className="fs-4 mb-3">المنتجات المضافة</label>
-
           {menu.length ? (
-            <div>
-              {menu.map((item, index) => {
-                return (
-                  <MenuCard
-                    index={index}
-                    id={item.id}
-                    delte={delte}
-                    setMenu={setMenu}
-                    img={item.img}
-                    text={item.text}
-                    price={item.price}
-                    count={item.qty}
-                    editHandler={editHandler}
-                    extra={item.extra}
-                    menu={menu}
-                  />
-                );
-              })}
-            </div>
+            <>
+              <label className="fs-4 mb-3">المنتجات المضافة</label>
+              <div>
+                {menu.map((item, index) => {
+                  return (
+                    <MenuCard
+                      index={index}
+                      id={item.id}
+                      delte={delte}
+                      setMenu={setMenu}
+                      img={item.img}
+                      text={item.text}
+                      price={item.price}
+                      count={item.qty}
+                      editHandler={editHandler}
+                      extra={item.extra}
+                      menu={menu}
+                    />
+                  );
+                })}
+              </div>
+            </>
           ) : (
             <div className="d-flex flex-column align-items-center">
               <AddShoppingCartIcon
                 style={{
                   textAlign: "center",
                   fontSize: "28px",
-                  color: "#D0021B",
+                  color: "#6A6E83",
                 }}
               />
               <h5
                 style={{
                   textAlign: "center",
                   fontSize: "24px",
-                  color: "#D0021B",
+                  color: "#6A6E83",
                 }}
               >
                 اضف منتجات
@@ -383,7 +385,7 @@ const [payMethod,setpayMethod]=useState("cash")
               type="text"
               name="name"
               id="name"
-              placeholder="CX3020"
+              placeholder=""
             />
             <button disabled={couponLoading} onClick={copunHandler}>
               {couponLoading ? "جاري ..." : "تطبيق"}
@@ -449,24 +451,28 @@ const [payMethod,setpayMethod]=useState("cash")
             <h4 className="mt-3 mb-2"> طريقة الدفع</h4>
             <div className="row justifty-content-between">
               <div className=" col-6">
-                <div className={payMethod=='cash'?"payType active":"payType"} onClick={()=>setpayMethod('cash')}>
-                نقدي
+                <div
+                  className={payMethod == "cash" ? "payType active" : "payType"}
+                  onClick={() => setpayMethod("cash")}
+                >
+                  نقدي
                 </div>
-              
               </div>
               <div className=" col-6">
-              
-              <div className={payMethod=='visa'?"payType active":"payType"} onClick={()=>setpayMethod('visa')}>
-              شبكة
+                <div
+                  className={payMethod == "visa" ? "payType active" : "payType"}
+                  onClick={() => setpayMethod("visa")}
+                >
+                  شبكة
                 </div>
               </div>
-              </div>
+            </div>
           </div>
         ) : null}
-          
+
         <button
           className="bottomCart"
-          style={{ transform: "translateX(0%) !important", border: "none" }}
+          style={{ transform: "translateX(0%) !important", border: "none" ,width:'100%',maxWidth:'100%'}}
           onClick={submitHandler}
           disabled={orderLoading}
         >
