@@ -12,6 +12,7 @@ import { useDispatch  } from "react-redux";
 import { logout } from "../../redux";
 import axios from '../../axios'
 import { useNavigate } from "react-router";
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 const NavBar = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const router = useNavigate();
@@ -46,7 +47,13 @@ function handleLogOut()
        
            ايقاف مؤقت
         </div>
+        <div className={classes.posPoint} style={{gap:'5px'}} onClick={()=>
+        {
       
+        }} >
+       <Inventory2OutlinedIcon/>
+        <span>  الطلبات </span>
+        </div>
       </div>
     </div>
   );
