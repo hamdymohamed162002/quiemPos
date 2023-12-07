@@ -47,7 +47,7 @@ function handleLogOut()
        
            ايقاف مؤقت
         </div>
-        <div className={classes.posPoint} style={{gap:'5px'}} onClick={()=>
+        <div className={classes.posPoint} style={{gap:'5px', background:'  linear-gradient(135deg, rgb(121, 241, 164) 10%, rgb(14, 92, 173) 100%)'}} onClick={()=>
         {
       
         }} >
