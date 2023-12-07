@@ -176,6 +176,7 @@ const PosPage = () => {
         .get("/session")
         .then((res) => {
           setSessionData(res.data);
+         
           setSessionLoading(false);
           if (!Cookies.get("start")) {
             Cookies.set("start", moment().format("HH:mm:SS L"));
@@ -191,6 +192,7 @@ const PosPage = () => {
           .get("/session")
           .then((res) => {
             setSessionData(res.data);
+           
             setSessionLoading(false);
             if (!Cookies.get("start")) {
               Cookies.set("start", moment().format("HH:mm:SS L"));
@@ -221,7 +223,7 @@ const PosPage = () => {
             <StaticCard
               loading={sessionLoading}
               img={comp}
-              text={<TimeCounter startFrom={Cookies.get("start")} />}
+              text={<TimeCounter startFrom={sessionData?.start} />}
               title={"بدايه الجلسه"}
             />
           </div>
