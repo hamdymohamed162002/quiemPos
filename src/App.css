@@ -204,6 +204,8 @@
 }
 .foodCard img{
   width: 100%;
+  max-height: 190px;
+  object-fit: contain;
 
   border-radius: 8px;
 }
