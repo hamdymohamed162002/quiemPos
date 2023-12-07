@@ -10,6 +10,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import shop from "../../assets/shop-outline.png";
 import { useDispatch  } from "react-redux";
 import { logout } from "../../redux";
+import PauseOutlinedIcon from '@mui/icons-material/PauseOutlined';
 import axios from '../../axios'
 import { useNavigate } from "react-router";
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
@@ -39,12 +40,12 @@ function handleLogOut()
         </div>
       </div>
       <div className={classes.Title}>
-        <div className={classes.posPoint} onClick={()=>
+        <div className={classes.posPoint} style={{gap:'5px'}} onClick={()=>
         {
           dispatch(logout())
           router('/login')
         }} >
-       
+      <PauseOutlinedIcon/>
            ايقاف مؤقت
         </div>
         <div className={classes.posPoint} style={{gap:'5px', background:'  linear-gradient(135deg, rgb(121, 241, 164) 10%, rgb(14, 92, 173) 100%)'}} onClick={()=>
