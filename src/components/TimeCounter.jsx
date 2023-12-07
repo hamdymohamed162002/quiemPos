@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 
 const TimeCounter = ({ startFrom }) => {
-  const initialTimeDifference = moment().diff(moment(startFrom, "HH:mm:SS L"), 'seconds');
+  const initialTimeDifference = moment().diff(moment(startFrom, "YYYY-MM-DD HH:mm:ss"), 'seconds');
   const [timeDifference, setTimeDifference] = useState(initialTimeDifference);
   const [seconds, setSeconds] = useState(initialTimeDifference % 60);
   const [minutes, setMinutes] = useState(Math.floor((initialTimeDifference / 60) % 60));
