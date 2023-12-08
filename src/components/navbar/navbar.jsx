@@ -21,6 +21,7 @@ import { Modal } from "react-bootstrap";
 import PrintButton from "../PrintButton";
 import { useReactToPrint } from "react-to-print";
 import Receipt from "../Receipt";
+import OrderModal from "./orderModal";
 const NavBar = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const router = useNavigate();
@@ -49,9 +50,14 @@ const NavBar = () => {
   });
   const handlePrintBtn = (order) => {
     setOrderToPrint(order);
-    handlePrint()
+  
   };
+useEffect(()=>{
 
+  if(orderToPrint){
+    handlePrint()
+  }
+},[orderToPrint])
   return (
     <div className={classes.navbar}>
       <div style={{ display: "flex", gap: "10px", position: "relative" }}>
@@ -95,46 +101,15 @@ const NavBar = () => {
           <span> الطلبات </span>
         </div>
       </div>
-      <Modal
-        size="md"
-        show={showDropDown}
-        onHide={() => setShowDropDown(false)}
-      >
-        <Modal.Header closeButton>الطلبات</Modal.Header>
-        <Modal.Body>
-          {orders?.map((item, index) => {
-            return (
-              <div key={index + item?.id} className="PastOrder">
-                <div className="d-flex align-items-center gap-2">
-                  <div className="OrderNumber">#{item?.id}</div>
-                  <div>
-                    <h2>{item?.customer?.name}</h2>
-                    <span>{item?.created_at}</span>
-                  </div>
-                </div>
-                <div className="d-flex gap-2">
-                  <div className="EditICon">
-                    <BorderColorOutlinedIcon />
-                  </div>
-                  <div className="CloseIcon">
-                    <CloseIcon />
-                  </div>
-                  <div className="PrintIcon" onClick={()=>handlePrintBtn(item)}>
-                    <LocalPrintshopOutlinedIcon />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          {orderToPrint && (
-            <Receipt
-              key={orderToPrint.id}
-              order={orderToPrint}
-              ref={componentRef}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+      
+      <OrderModal
+        showDropDown={showDropDown}
+        setShowDropDown={setShowDropDown}
+        orders={orders}
+        handlePrintBtn={handlePrintBtn}
+        orderToPrint={orderToPrint}
+        componentRef={componentRef}
+      />
     </div>
   );
 };
