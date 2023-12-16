@@ -378,6 +378,7 @@ margin: 0;
   background: linear-gradient(90deg, rgba(31,129,226,1) 0%, rgba(19,180,215,1) 100%);
   padding: 11px;
   text-align: center;
+  cursor: pointer;
   color: white;
   border-radius: 8px;
   margin-top: 10px;
@@ -385,6 +386,7 @@ margin: 0;
 .KitchenCardBody .SubmitBtn.ended{
 background: rgba(31, 129, 227,0.2);
 color: #1F81E2;
+cursor: not-allowed;
 }
 .forDesktop{
 
@@ -555,6 +557,15 @@ display: none;
 }
 @media print{
   #invoice-POS{
+    display: block;
+  }
+}
+@media(max-width:991px)
+{
+  .forDesktopCards{
+    display: none !important;
+  }
+  .forMobileCards{
     display: block;
   }
 }

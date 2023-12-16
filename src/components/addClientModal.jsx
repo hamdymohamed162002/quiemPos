@@ -59,7 +59,7 @@ const ClientModal = ({ show, setShow ,setUpdated }) => {
                 // same shape as initial values
                 notify();
                 axios
-                  .post("/customers", values)
+                  .post("/pos/customers", values)
                   .then((res) => {
                     console.log(res.data);
                     setUpdated(true); 

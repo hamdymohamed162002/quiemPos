@@ -13,7 +13,7 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
   const [extra, setExtra] = useState([]);
   const [totalPrice, settotalPrice] = useState(price);
   useEffect(() => {
-    axios.get(`/extra/${id}`).then((res) => {
+    axios.get(`/pos/extra/${id}`).then((res) => {
      
       let ExtraWithCount = res.data.data.map((item) => {
         return { ...item, count: 0 };

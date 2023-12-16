@@ -8,7 +8,7 @@ const StaticCard = ({text,title,img,active,forCate,index,changeActive,loading,se
         changeActive(index, disabled)
       if(!disabled)
       {
-        axios.get(`/category/${id}`)
+        axios.get(`/pos/category/${id}`)
         .then(res=>{
         
         

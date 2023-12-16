@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -6,7 +6,7 @@ import logo from "./assets/logo.png";
 import res from "./assets/res.svg";
 import Tab from "./components/tab";
 import ProductCard from "./components/card";
-import 'rsuite/dist/rsuite.min.css';
+import "rsuite/dist/rsuite.min.css";
 import MobileSideBar from "./components/sidebar/mobileSideBar";
 import SideBar from "./components/sidebar/sidebar";
 import NavBar from "./components/navbar/navbar";
@@ -31,7 +31,9 @@ import Login from "./pages/login";
 import { useSelector } from "react-redux";
 import Kitchen from "./pages/Kitchen";
 import LayOut from "./pages/LayOut";
+
 function App() {
+
   let isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   function AuthGuard({ children }) {
     if (!isLoggedIn) {

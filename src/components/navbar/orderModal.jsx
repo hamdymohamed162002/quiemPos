@@ -3,7 +3,7 @@ import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import LocalPrintshopOutlinedIcon from "@mui/icons-material/LocalPrintshopOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import CloseIcon from "@mui/icons-material/Close";
-
+import axios from "../../axios";
 import { Modal } from "react-bootstrap";
 const OrderModal = ({
     showDropDown,
@@ -11,8 +11,16 @@ const OrderModal = ({
     orders,
     handlePrintBtn,
     orderToPrint,
+    setOrders,
     componentRef,
 }) => {
+  
+  const handleDelete=(item)=>{
+    axios.post(`/pos/order/${item.id}`).then((res) => {
+      setShowDropDown(false)
+      setOrders(orders.filter((order)=>order.id!==item.id))
+    });
+  }
     return (   <Modal
         size="md"
         show={showDropDown}
@@ -22,7 +30,7 @@ const OrderModal = ({
         <Modal.Body>
           {orders?.map((item, index) => {
             return (
-              <div key={index + item?.id} className="PastOrder">
+              <div key={index + item?.id+Math.random()} className="PastOrder">
                 <div className="d-flex align-items-center gap-2">
                   <div className="OrderNumber">#{item?.id}</div>
                   <div>
@@ -34,7 +42,7 @@ const OrderModal = ({
                   <div className="EditICon">
                     <BorderColorOutlinedIcon />
                   </div>
-                  <div className="CloseIcon">
+                  <div className="CloseIcon" onClick={()=>handleDelete(item)}>
                     <CloseIcon />
                   </div>
                   <div className="PrintIcon" onClick={()=>handlePrintBtn(item)}>
@@ -44,6 +52,7 @@ const OrderModal = ({
               </div>
             );
           })}
+          
           {orderToPrint && (
             <Receipt
               key={orderToPrint.id}

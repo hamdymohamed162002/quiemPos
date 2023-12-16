@@ -17,10 +17,10 @@ import { toast } from "react-toastify";
 import { Skeleton } from "@mui/material";
 import ClientModal from "../components/addClientModal";
 import Lottie from "react-lottie";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import animaion from "../assets/falied.json";
 import moment from "moment";
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion";
 import { Modal, Button, Form } from "react-bootstrap"; // assuming you are using Bootstrap
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -28,7 +28,8 @@ import Cookies from "js-cookie";
 import TimeCounter from "../components/TimeCounter.jsx";
 import KitchenCard from "../components/KitchenCard.jsx";
 import KitchenCheckout from "../components/KitchenCheckout.jsx";
-import {Dropdown } from "rsuite"
+import { Dropdown } from "rsuite";
+import Pusher from "pusher-js";
 const Kitchen = () => {
   const [updated, setUpdated] = useState(false);
   const [showfirstModal, setShowFirst] = useState(false);
@@ -38,6 +39,8 @@ const Kitchen = () => {
   const [sessionDrawer, setSessionDrawer] = useState();
   const [acitve, setactive] = useState(0);
   const [checkout, setcheckout] = useState(0);
+  const [SingleProductCheckout, setSingleProductCheckout] = useState();
+
   function changeActive(index, disabled) {
     if (!disabled) {
       setactive(index);
@@ -65,7 +68,7 @@ const Kitchen = () => {
       setSessionDrawer(values.number);
       setPostSessionLoading(true);
       axios
-        .post("/session", { drawer: values.number })
+        .post("/pos/session", { drawer: values.number })
         .then((res) => {
           console.log(res);
           setPostSessionLoading(false);
@@ -75,6 +78,8 @@ const Kitchen = () => {
       handelfirstModalClose(values.number);
     },
   });
+
+  const [pusher, setPusher] = useState(null);
 
   const [menu, setMenu] = useState([]);
   function addtoMenu(img, text, price, extra, count, id) {
@@ -117,7 +122,7 @@ const Kitchen = () => {
   }
 
   //scroll functions
-
+  const [Data, setData] = useState();
   const [isScrolling, setIsScrolling] = useState(false);
   const [scrollX, setScrollX] = useState(0);
   const startX = useRef(0);
@@ -145,64 +150,33 @@ const Kitchen = () => {
     }
   };
   const [products, setproducts] = useState();
+  const [PendingProducts, setPendingProducts] = useState();
+  const [PendingOrder, setPendingOrder] = useState();
+  const [productFinshed, setproductFinshed] = useState();
   const [productError, setproductError] = useState();
   //cateogry states
   const [categories, setCategories] = useState();
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   //session states
   const [sessionLoading, setSessionLoading] = useState(true);
-
   useEffect(() => {
-    console.log(categories, products);
     axios
-      .get("/categories")
-      .then((req) => {
-        setCategoriesLoading(false);
-        const sortedData = req.data.data.sort(
-          (a, b) => b.products_count - a.products_count
-        );
-
-        setCategories(sortedData);
+      .get("/kitchen/home")
+      .then((res) => {
+        setPendingProducts(res.data.new);
+        setPendingOrder(res.data.cooking);
+        setproductFinshed(res.data.finished);
       })
       .catch((err) => {});
   }, []);
   useEffect(() => {
-    if (categories) {
-      axios.get(`/category/${categories[0].id}`).then((req) => {
-        setproducts(req.data.data.product);
-      });
-    }
-  }, [categories]);
-  useEffect(() => {
-    if (firstTime) {
-      axios
-        .get("/session")
-        .then((res) => {
-          setSessionData(res.data);
-          setSessionLoading(false);
-          if (!Cookies.get("start")) {
-            Cookies.set("start", moment().format("HH:mm:SS L"));
-          }
-        })
-        .catch((err) => {
-          setShowFirst(true);
-          setFirstTime(false);
-        });
-    } else {
-      if (!postSessionLoading) {
-        axios
-          .get("/session")
-          .then((res) => {
-            setSessionData(res.data);
-            setSessionLoading(false);
-            if (!Cookies.get("start")) {
-              Cookies.set("start", moment().format("HH:mm:SS L"));
-            }
-          })
-          .catch((err) => {});
-      }
-    }
-  }, [sessionDrawer, firstTime, postSessionLoading]);
+    axios
+      .post("/kitchen/session", { drawer: 100 })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {});
+  }, []);
 
   const defaultOptions = {
     loop: false,
@@ -212,114 +186,173 @@ const Kitchen = () => {
       preserveAspectRatio: "xMidYMid ",
     },
   };
+  const refetch = () => {
+    axios
+      .get("/kitchen/home")
+      .then((res) => {
+        setPendingProducts(res.data.new);
+        setPendingOrder(res.data.cooking);
+        setproductFinshed(res.data.finished);
+      })
+      .catch((err) => {});
+  };
+  useEffect(() => {
+    Pusher.logToConsole = true;
 
+    const pusher = new Pusher("4fa200c96d01587c7ad1", {
+      cluster: "ap2",
+    });
+
+    const channel = pusher.subscribe("my-channel");
+    // channel.bind("my-event", function (data) {
+    //   setData(data);
+    // });
+    channel.bind("App\\Events\\FlutterEvent", function (data) {
+      setData(data);
+      console.log(data)
+      refetch();
+    });
+
+
+
+    return () => {
+      pusher.unsubscribe("my-channel");
+      pusher.disconnect();
+    };
+  }, []);
+  useEffect(() => {
+    console.log('App\\\\Events\\\\FlutterEvent')
+    refetch();
+  }, [Data]);
   return (
     <>
       {" "}
       <div
         style={{ background: "#F8F9FD", padding: "30px", minHeight: "100vh" }}
       >
-  
         <div className="row mt-1">
-          <div className="col-lg-9 col-md-12 mt-3">
+          <div
+            className={`${
+              SingleProductCheckout ? "col-lg-9" : "col-lg-12"
+            } col-md-12 mt-3`}
+            style={{ transition: "0.4s" }}
+          >
             <div className="searchBar">
               <input placeholder="بحث ..." />
 
               <div className="searchIcon"></div>
             </div>
             <div className="row mt-3">
-                <div className="forDesktop row p-0">
-                    <div className="col-lg-4"> 
-                    <div className="SelectCardStatus" style={{borderColor:'#1F81E2' ,color:'#1F81E2'}}>
+              <div className="forDesktop row p-0">
+                <div className="col-lg-4">
+                  <div
+                    className="SelectCardStatus"
+                    style={{ borderColor: "#1F81E2", color: "#1F81E2" }}
+                  >
                     طلبات جديدة
-                    <div className="badge" style={{backgroundColor:'#1F81E2'}}>
-                        7
+                    <div
+                      className="badge"
+                      style={{ backgroundColor: "#1F81E2" }}
+                    >
+                      7
                     </div>
-                        </div> 
-                        </div>
-                    <div className="col-lg-4"> 
-                    <div className="SelectCardStatus" style={{borderColor:'#E28D1F' ,color:'#E28D1F'}}>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div
+                    className="SelectCardStatus"
+                    style={{ borderColor: "#E28D1F", color: "#E28D1F" }}
+                  >
                     جاري الطبخ
-                    <div className="badge" style={{backgroundColor:'#E28D1F'}}>
-                        7
+                    <div
+                      className="badge"
+                      style={{ backgroundColor: "#E28D1F" }}
+                    >
+                      7
                     </div>
-                        </div> 
-                      </div>
+                  </div>
+                </div>
 
-                    <div className="col-lg-4">
-                    <div className="SelectCardStatus" style={{borderColor:'#29B84A' ,color:'#29B84A'}}>
+                <div className="col-lg-4">
+                  <div
+                    className="SelectCardStatus"
+                    style={{ borderColor: "#29B84A", color: "#29B84A" }}
+                  >
                     تم التسليم
-                    <div className="badge" style={{backgroundColor:'#29B84A'}}>
-                        7
+                    <div
+                      className="badge"
+                      style={{ backgroundColor: "#29B84A" }}
+                    >
+                      7
                     </div>
-                        </div>   </div>
-
+                  </div>{" "}
                 </div>
-            <div className="d-flex">
-            <div className="forMobile">
-            <Dropdown title="تصفية" icon={<FilterListIcon />}>
-    <Dropdown.Item>          طلبات جديدة</Dropdown.Item>
-    <Dropdown.Item>  جاري الطبخ</Dropdown.Item>
-    <Dropdown.Item>     تم التسليم</Dropdown.Item>
-
-  </Dropdown>
+              </div>
+              <div className="d-flex">
+                <div className="forMobile">
+                  <Dropdown title="تصفية" icon={<FilterListIcon />}>
+                    <Dropdown.Item> طلبات جديدة</Dropdown.Item>
+                    <Dropdown.Item> جاري الطبخ</Dropdown.Item>
+                    <Dropdown.Item> تم التسليم</Dropdown.Item>
+                  </Dropdown>
                 </div>
+              </div>
             </div>
+            <div className="forDesktopCards">
+              <div className="row mt-2">
+                <div className="col-lg-4">
+                  {PendingProducts?.map((item, index) => (
+                    <KitchenCard
+                      item={item}
+                      setSingleProductCheckout={setSingleProductCheckout}
+                      start
+                      refetch={refetch}
+                    />
+                  ))}
+                </div>
+                <div className="col-lg-4">
+                  {PendingOrder?.map((item, index) => (
+                    <KitchenCard
+                      item={item}
+                      setSingleProductCheckout={setSingleProductCheckout}
+                      refetch={refetch}
+                    />
+                  ))}
+                </div>
+                <div className="col-lg-4">
+                  {productFinshed?.map((item, index) => (
+                    <KitchenCard
+                      item={item}
+                      setSingleProductCheckout={setSingleProductCheckout}
+                      ended
+                      refetch={refetch}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
-<div className="row mt-2">
-    <div className="col-lg-4">
-<KitchenCard/>
-<KitchenCard/>
-<KitchenCard/>
-    </div>
-    <div className="col-lg-4">
-<KitchenCard/>
-<KitchenCard/>
-
-    </div>
-    <div className="col-lg-4">
-<KitchenCard ended/>
-    </div>
-</div>
-           
-            
+            <div className="forMobileCards"></div>
           </div>
-          <div className="col-lg-3 col-md-12 mt-3">
-            <KitchenCheckout
-        
-            />
-          </div>
+          <AnimatePresence mode="wait">
+            {SingleProductCheckout && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="col-lg-3 col-md-12 mt-3"
+                style={{ transition: "0.4s" }}
+              >
+                <KitchenCheckout
+                  SingleProductCheckout={SingleProductCheckout}
+                  setSingleProductCheckout={setSingleProductCheckout}
+                  refetch={refetch}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       <ClientModal show={show} setShow={setShow} setUpdated={setUpdated} />
-      <Modal show={showfirstModal} onHide={handelfirstModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title> المبلغ الحالي</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={formik.handleSubmit}>
-            <Form.Group controlId="formNumber">
-              <Form.Label>الرقم</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="ادخل المبلغ"
-                name="number"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.number}
-                isInvalid={formik.touched.number && formik.errors.number}
-              />
-              <Form.Control.Feedback type="invalid">
-                {formik.errors.number}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="mt-3">
-              ادخال
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
     </>
   );
 };

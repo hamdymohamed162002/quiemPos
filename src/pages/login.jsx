@@ -1,55 +1,68 @@
-import React, { useEffect, useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
- import logo from '../assets/sMm6Y26DRv60QTDqElRY.png';
- import Banner from '../assets/login-banner.png';
-import '../styles/login.css';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from '../axios';
-import {login} from '../redux'
-import { useNavigate } from 'react-router';
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import logo from "../assets/sMm6Y26DRv60QTDqElRY.png";
+import Banner from "../assets/login-banner.png";
+import "../styles/login.css";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "../axios";
+import { login } from "../redux";
+import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
 
 const Login = () => {
-  let isLoggedIn =useSelector(state=>state.auth.isAuthenticated)
-      const router = useNavigate();
-      const [loading,setloading]=useState(false);
-      const [error,seterror]=useState();
+  let isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  let type = useSelector((state) => state.auth.type);
 
-      const dispatch=useDispatch()
+  const router = useNavigate();
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState();
+
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('يرجي ادخال البريد الالكتروني'),
-      password: Yup.string().required('ادخل رمز المرور'),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("يرجي ادخال البريد الالكتروني"),
+      password: Yup.string().required("ادخل رمز المرور"),
     }),
     onSubmit: (values) => {
-        axios.post('/login',values).then((res)=>{
-           
-            dispatch(login(res.data.access_token));
-router('/')
+      axios
+        .post("/pos/login", values)
+        .then((res) => {
+          dispatch(login(res.data));
+          if(res.data.user.type === "pos")
+          {
+            router("/");
+          }
+          else      router("/kitchen");
+       
         })
-        .catch((err)=>{
-
-            seterror(err.response.data.message)
-        })  
+        .catch((err) => {
+          seterror(err.response.data.message);
+        });
     },
   });
 
   useEffect(() => {
-  console.log(isLoggedIn)
-    if(isLoggedIn){
-        router('/')
-
+    console.log(isLoggedIn);
+    if (isLoggedIn) {
+      if(type === "pos")
+      {
+        router("/");
+      }
+      else  router("/kitchen");
+   
     }
   }, [isLoggedIn]);
   return (
     <div className="d-flex">
       <div className="login-content">
-        <div style={{ width: '80%' }}>
+        <div style={{ width: "80%" }}>
           <img src={logo} alt="Logo" />
           <h3>أهلاً بعودتك !</h3>
           <p>من فضلك قم بتسجيل الدخول للمتابعة والوصول للنظام</p>
@@ -59,12 +72,16 @@ router('/')
                 البريد الالكتروني
               </label>
               <input
-                style={{ direction: 'rtl' }}
+                style={{ direction: "rtl" }}
                 type="email"
-                className={`form-control ${formik.touched.email && formik.errors.email ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  formik.touched.email && formik.errors.email
+                    ? "is-invalid"
+                    : ""
+                }`}
                 id="email"
                 placeholder="ادخل البريد الالكتروني"
-                {...formik.getFieldProps('email')}
+                {...formik.getFieldProps("email")}
               />
               {formik.touched.email && formik.errors.email && (
                 <div className="invalid-feedback">{formik.errors.email}</div>
@@ -76,25 +93,25 @@ router('/')
               </label>
               <input
                 placeholder="ادخل كلمه المرور"
-                style={{ direction: 'rtl' }}
+                style={{ direction: "rtl" }}
                 type="password"
-                className={`form-control ${formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  formik.touched.password && formik.errors.password
+                    ? "is-invalid"
+                    : ""
+                }`}
                 id="password"
-                {...formik.getFieldProps('password')}
+                {...formik.getFieldProps("password")}
               />
               {formik.touched.password && formik.errors.password && (
                 <div className="invalid-feedback">{formik.errors.password}</div>
               )}
-             
             </div>
-          {error&&
-              <div style={{color:'red'}}>{error}</div>
-          }
-            
+            {error && <div style={{ color: "red" }}>{error}</div>}
+
             <button type="submit" className="btn btn-primary login-btn mb-3">
               تسجيل الدخول
             </button>
-          
           </form>
         </div>
       </div>

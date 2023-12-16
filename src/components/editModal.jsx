@@ -22,7 +22,7 @@ const EditModal = ({
   const [tempExtra, setTempExtra] = useState([...selectedExtra]);
 const [qty,setqty]=useState(count)
   useEffect(() => {
-    axios.get(`/extra/${id}`).then((res) => {
+    axios.get(`/pos/extra/${id}`).then((res) => {
       const ExtraWithCount = res.data.data.map((item) => {
         return { ...item, qty: 0 };
       });

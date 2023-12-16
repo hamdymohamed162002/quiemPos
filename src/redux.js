@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 const initialState = {
   isAuthenticated: !!Cookies.get('token'),
   token: Cookies.get('token') || null,
+  type:null,
 };
 
 const authSlice = createSlice({
@@ -13,8 +14,9 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.isAuthenticated = true;
-      state.token = action.payload;
-      Cookies.set('token', action.payload, { expires: 1 / 24 }); // Set cookie with a 1-hour expiration
+      state.token = action.payload.access_token;
+      state.type = action.payload.user.type;
+      Cookies.set('token', action.payload.access_token, { expires: 1 / 24 }); // Set cookie with a 1-hour expiration
     },
     logout: (state) => {
       state.isAuthenticated = false;

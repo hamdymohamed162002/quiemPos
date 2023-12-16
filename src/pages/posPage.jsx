@@ -62,7 +62,7 @@ const PosPage = () => {
       setSessionDrawer(values.number);
       setPostSessionLoading(true);
       axios
-        .post("/session", { drawer: values.number })
+        .post("/pos/session", { drawer: values.number })
         .then((res) => {
           console.log(res);
           setPostSessionLoading(false);
@@ -152,7 +152,7 @@ const PosPage = () => {
   useEffect(() => {
     console.log(categories, products);
     axios
-      .get("/categories")
+      .get("/pos/categories")
       .then((req) => {
         setCategoriesLoading(false);
         const sortedData = req.data.data.sort(
@@ -165,7 +165,7 @@ const PosPage = () => {
   }, []);
   useEffect(() => {
     if (categories) {
-      axios.get(`/category/${categories[0].id}`).then((req) => {
+      axios.get(`/pos/category/${categories[0].id}`).then((req) => {
         setproducts(req.data.data.product);
       });
     }
@@ -173,7 +173,7 @@ const PosPage = () => {
   useEffect(() => {
     if (firstTime) {
       axios
-        .get("/session")
+        .get("/pos/session")
         .then((res) => {
           setSessionData(res.data);
          
@@ -189,7 +189,7 @@ const PosPage = () => {
     } else {
       if (!postSessionLoading) {
         axios
-          .get("/session")
+          .get("/pos/session")
           .then((res) => {
             setSessionData(res.data);
            

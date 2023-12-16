@@ -15,12 +15,16 @@ import SideBar from "./components/sidebar/sidebar.jsx";
 import MobileSideBar from "./components/sidebar/mobileSideBar.jsx";
 import { StyledEngineProvider } from "@mui/styled-engine";
 import { configureStore } from "@reduxjs/toolkit";
+
 import { Provider } from 'react-redux';
 const store = configureStore({
   reducer: {
     auth: authReducer,
+    
   },
 });
+
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -16,7 +16,15 @@ import { Modal } from "react-bootstrap";
 import animaion from "../assets/done.json";
 import Lottie from "react-lottie";
 import { TextField } from "@mui/material";
-const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,setUpdated }) => {
+const OrderCheckOut = ({
+  menu,
+  setMenu,
+  setShow,
+  checkout,
+  setcheckout,
+  updated,
+  setUpdated,
+}) => {
   const [showSuccesModal, setShowSuccesModal] = useState(false);
   const [customer_id, setcustomer_id] = useState(null);
   const [customerError, setcustomerError] = useState(false);
@@ -42,7 +50,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,
 
   useEffect(() => {
     axios
-      .get("/companies")
+      .get("/pos/companies")
       .then((res) => {
         setCompanyToSelect(res.data.data);
       })
@@ -80,12 +88,12 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,
   const [options, setOptions] = useState(0);
   const [acitve, setactive] = useState(0);
   useEffect(() => {
-    axios.get("/customers").then((res) => {
+    axios.get("/pos/customers").then((res) => {
       const newOptions = res.data.data.map((item) => {
         return { value: item.id, label: item.name };
       });
       setOptions(newOptions);
-      setUpdated(false)
+      setUpdated(false);
     });
   }, [updated]);
   const [coupon, setcoupon] = useState("");
@@ -98,7 +106,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,
   function copunHandler() {
     setcouponLoading(true);
     axios
-      .post("/coupon", { coupon: coupon })
+      .post("/pos/coupon", { coupon: coupon })
       .then((res) => {
         console.log(res.data);
         setcouponSuccess(true);
@@ -168,7 +176,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,
     }
     setorderLoading(true);
     axios
-      .post("/order", postData)
+      .post("/pos/order", postData)
       .then((res) => {
         console.log(res.data);
         setorderLoading(false);
@@ -211,7 +219,7 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,
                 placeholder={"اختر العميل"}
                 isClearable={true}
                 isRtl={true}
-                onChange={(e) => setcustomer_id(e.value)}
+                onChange={(e) => setcustomer_id(e ? e.value : null)}
                 isSearchable={true}
                 name="color"
                 styles={{ control: (base) => ({ ...base, width: "100%" }) }}
@@ -469,10 +477,34 @@ const OrderCheckOut = ({ menu, setMenu, setShow, checkout, setcheckout,updated ,
             </div>
           </div>
         ) : null}
+  <div
+          className="container mt-3 p-3"
+          style={{ backgroundColor: "white" }}
+        >
+          <div className="d-flex justify-content-between">
+            <span> هل لديك ملاحظات إضافية ؟</span>
+            <span
+         
+            >
+              <img src={edit}/>
+            </span>
+          </div>
+          <div>
+          <input type="text" class="form-control mt-3" id="exampleFormControlInput1" placeholder=""/>
 
+          </div>
+      
+                            
+        
+        </div>
         <button
           className="bottomCart"
-          style={{ transform: "translateX(0%) !important", border: "none" ,width:'100%',maxWidth:'100%'}}
+          style={{
+            transform: "translateX(0%) !important",
+            border: "none",
+            width: "100%",
+            maxWidth: "100%",
+          }}
           onClick={submitHandler}
           disabled={orderLoading}
         >

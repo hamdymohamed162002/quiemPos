@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import shop from "../../assets/shop-outline.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux";
 import PauseOutlinedIcon from "@mui/icons-material/PauseOutlined";
 import axios from "../../axios";
@@ -24,24 +24,30 @@ import Receipt from "../Receipt";
 import OrderModal from "./orderModal";
 const NavBar = () => {
   const [showDropDown, setShowDropDown] = useState(false);
+  const type = useSelector((state) => state.auth.type);
   const router = useNavigate();
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   const [orderToPrint, setOrderToPrint] = useState(null);
   function handleLogOut() {
-    axios.post("/endsession").then((res) => {
-      dispatch(logout());
-      router("/login");
-    });
+if(type==="pos"){
+  axios.post("/pos/endsession").then((res) => {
+    dispatch(logout());
+    router("/login");
+  });
+}else{
+  dispatch(logout());
+  router("/login");
+}
   }
   useEffect(() => {
     axios
-      .get("/orders")
+      .get("/pos/orders")
       .then((res) => {
         setOrders(res.data.data);
       })
       .catch((err) => {});
-  }, []);
+  }, [showDropDown]);
 
   const componentRef = useRef();
 
@@ -106,6 +112,7 @@ useEffect(()=>{
         showDropDown={showDropDown}
         setShowDropDown={setShowDropDown}
         orders={orders}
+        setOrders={setOrders}
         handlePrintBtn={handlePrintBtn}
         orderToPrint={orderToPrint}
         componentRef={componentRef}
