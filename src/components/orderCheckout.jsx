@@ -16,6 +16,7 @@ import { Modal } from "react-bootstrap";
 import animaion from "../assets/done.json";
 import Lottie from "react-lottie";
 import { TextField } from "@mui/material";
+import Receipt from "./Receipt.jsx";
 const OrderCheckOut = ({
   menu,
   setMenu,
@@ -27,6 +28,7 @@ const OrderCheckOut = ({
 }) => {
   const [showSuccesModal, setShowSuccesModal] = useState(false);
   const [customer_id, setcustomer_id] = useState(null);
+ 
   const [customerError, setcustomerError] = useState(false);
   const [table, settable] = useState(null);
   const [tableError, settableError] = useState(false);
@@ -37,6 +39,9 @@ const OrderCheckOut = ({
   const [orderLoading, setorderLoading] = useState(false);
   const [orderSuccess, setorderSuccess] = useState(false);
   const [orderError, setorderError] = useState(false);
+  const [notes, setNotes] = useState("");
+  const [halfCash, sethalfCash] = useState();
+  const [HalfCashError, setHalfCashError] = useState(false);
   //modal functions
   const [CompanyToSelect, setCompanyToSelect] = useState([]);
   function delte(index) {
@@ -90,7 +95,7 @@ const OrderCheckOut = ({
   useEffect(() => {
     axios.get("/pos/customers").then((res) => {
       const newOptions = res.data.data.map((item) => {
-        return { value: item.id, label: item.name };
+        return { value: item, label: item.name };
       });
       setOptions(newOptions);
       setUpdated(false);
@@ -118,12 +123,33 @@ const OrderCheckOut = ({
         setcouponLoading(false);
       });
   }
+  function searchById(array, id) {
+    return array.find((item) => item.id === id);
+  }
+  const [PointsError, setPointsError] = useState(false);
   function submitHandler() {
     let flag1,
       flag2,
       flag3,
       flag4 = false;
-    if (customer_id == null) {
+
+      if(payMethod=="points")
+      {
+        let flag=false
+        axios.post("/pos/calculatepoints", {products:menu}).then((res) => {
+          console.log(res.data)
+
+          if(customer_id?.points < res.data.data)
+          {
+            setPointsError(true)
+            flag=true
+            return
+          }
+        });
+        if(flag) return ;
+      }
+
+    if (customer_id?.id == null) {
       setcustomerError(true);
       flag1 = true;
     } else {
@@ -156,13 +182,19 @@ const OrderCheckOut = ({
     if (flag1 || flag2 || flag3 || flag4) {
       return;
     }
+    if (payMethod == "half_cash" && !halfCash) {
+      setHalfCashError(true);
+      return;
+    }
+
     let postData = {
-      customer_id: customer_id,
+      customer_id: customer_id.id,
       products: menu,
       order_type: acitve == 1 ? "takeaway" : acitve == 2 ? "car" : "",
       cash_amount: checkout,
       payment_method: payMethod,
       coupon: coupon,
+      notes: notes,
     };
     if (acitve == 0) {
       postData.order_type = "restaurant";
@@ -174,11 +206,17 @@ const OrderCheckOut = ({
       postData.cash_amount =
         checkout + (searchById(CompanyToSelect, +company)?.extra || Number(0));
     }
+    if (payMethod == "half_cash") {
+      if (!(halfCash <= checkout)) {
+        return;
+      }
+      postData.cash_amount = halfCash;
+    }
     setorderLoading(true);
     axios
       .post("/pos/order", postData)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.data.id);
         setorderLoading(false);
         setShowSuccesModal(true);
         setorderSuccess(true);
@@ -186,7 +224,12 @@ const OrderCheckOut = ({
         setcompany(null);
         settable(null);
         setcheckout(0);
+        setPointsError(false)
         setdiscount(null);
+        axios
+          .get("/pos/orders")
+          .then((ress) => {})
+          .catch((err) => {});
       })
       .catch((err) => {
         setorderLoading(false);
@@ -458,7 +501,7 @@ const OrderCheckOut = ({
             </div>
             <h4 className="mt-3 mb-2"> طريقة الدفع</h4>
             <div className="row justifty-content-between">
-              <div className=" col-6">
+              <div className=" col-3">
                 <div
                   className={payMethod == "cash" ? "payType active" : "payType"}
                   onClick={() => setpayMethod("cash")}
@@ -466,7 +509,7 @@ const OrderCheckOut = ({
                   نقدي
                 </div>
               </div>
-              <div className=" col-6">
+              <div className=" col-3">
                 <div
                   className={payMethod == "visa" ? "payType active" : "payType"}
                   onClick={() => setpayMethod("visa")}
@@ -474,28 +517,75 @@ const OrderCheckOut = ({
                   شبكة
                 </div>
               </div>
+              <div className=" col-3">
+                <div
+                  className={
+                    payMethod == "half_cash" ? "payType active" : "payType"
+                  }
+                  onClick={() => setpayMethod("half_cash")}
+                >
+                  شبكة و نقدي
+                </div>
+              </div>
+              <div className=" col-2">
+                <div
+                  className={
+                    payMethod == "points" ? "payType active" : "payType"
+                  }
+                  onClick={() => setpayMethod("points")}
+                >
+                  نقاط
+                </div>
+              </div>
             </div>
+            {payMethod == "half_cash" && (
+              <div className="mt-3">
+                <label className=" mb-1"> مبلغ كاش </label>
+                <input
+                  className="form-control"
+                  placeholder=" مبلغ كاش   "
+                  onChange={(e) => sethalfCash(e.target.value)}
+                />
+
+                {HalfCashError && (
+                  <div className="mt-1" style={{ color: "red" }}>
+                    يرجي اختيار مبلغ كاش
+                  </div>
+                )}
+                {!(halfCash <= checkout) && (
+                  <div className="mt-1" style={{ color: "red" }}>
+                    {" "}
+                    المبلغ اكبر من الفاتورة
+                  </div>
+                )}
+              </div>
+            )}
+               {PointsError && (
+                  <div className="mt-1" style={{ color: "red" }}>
+                   العميل لا يملك كافي النقاط اللازمة
+                  </div>
+                )}
           </div>
         ) : null}
-  <div
+        <div
           className="container mt-3 p-3"
           style={{ backgroundColor: "white" }}
         >
           <div className="d-flex justify-content-between">
             <span> هل لديك ملاحظات إضافية ؟</span>
-            <span
-         
-            >
-              <img src={edit}/>
+            <span>
+              <img src={edit} />
             </span>
           </div>
           <div>
-          <input type="text" class="form-control mt-3" id="exampleFormControlInput1" placeholder=""/>
-
+            <input
+              type="text"
+              class="form-control mt-3"
+              id="exampleFormControlInput1"
+              placeholder=""
+              onChange={(e) => setNotes(e.target.value)}
+            />
           </div>
-      
-                            
-        
         </div>
         <button
           className="bottomCart"
@@ -546,6 +636,13 @@ const OrderCheckOut = ({
           </div>
         </Modal.Body>
       </Modal>
+      {/* {orderToPrint && (
+            <Receipt
+              key={orderToPrint.id}
+              order={orderToPrint}
+              ref={componentRef}
+            />
+          )} */}
     </>
   );
 };

@@ -77,7 +77,7 @@ function App() {
           }
         />
         <Route path="/orderFinish" element={<OrderFinish />} />
-        <Route path="/WaitList" element={<WaittingList />} />
+        <Route path="/WaitList/:id" element={<WaittingList />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/Kitchen"

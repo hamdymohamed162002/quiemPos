@@ -1,7 +1,7 @@
 // src/components/Receipt.js
 import React, { forwardRef } from 'react';
 import { Card, Table } from 'react-bootstrap';
-import BarCode from '../assets/BarCode.png';
+import BarCode from '../assets/Barcode.png';
 import logo from '../assets/logo.png'
 const Receipt = forwardRef(({ order }, ref) => {
   const styles = {

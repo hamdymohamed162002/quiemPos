@@ -5,6 +5,8 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "../../axios";
 import { Modal } from "react-bootstrap";
+import UndoIcon from '@mui/icons-material/Undo';
+import { useEffect } from "react";
 const OrderModal = ({
     showDropDown,
     setShowDropDown,
@@ -13,6 +15,10 @@ const OrderModal = ({
     orderToPrint,
     setOrders,
     componentRef,
+    setSelectId,
+    setShowModal,
+    setShowEditModal,
+    setOrderToEdit
 }) => {
   
   const handleDelete=(item)=>{
@@ -21,6 +27,7 @@ const OrderModal = ({
       setOrders(orders.filter((order)=>order.id!==item.id))
     });
   }
+
     return (   <Modal
         size="md"
         show={showDropDown}
@@ -39,12 +46,24 @@ const OrderModal = ({
                   </div>
                 </div>
                 <div className="d-flex gap-2">
-                  <div className="EditICon">
+                  {/* <div className="EditICon" onClick={()=>{
+                    setShowEditModal(true)
+                    setOrderToEdit(item)
+                  }}>
                     <BorderColorOutlinedIcon />
-                  </div>
-                  <div className="CloseIcon" onClick={()=>handleDelete(item)}>
-                    <CloseIcon />
-                  </div>
+                  </div> */}
+              {
+                item?.status=="1" ? <div className="CloseIcon" onClick={()=>handleDelete(item)}>
+                 <CloseIcon />
+               </div>: <div className="CloseIcon" onClick={()=>{
+                  setSelectId(item?.id);
+                  setShowDropDown(false);
+                  setShowModal(true)
+               
+               }}>
+                 <UndoIcon />
+               </div>
+              }
                   <div className="PrintIcon" onClick={()=>handlePrintBtn(item)}>
                     <LocalPrintshopOutlinedIcon />
                   </div>

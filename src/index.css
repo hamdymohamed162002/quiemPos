@@ -1692,10 +1692,25 @@ filter: none;
   }
 }
     
-.WaitingListContainer{
+.WaitingListContainer {
   background-color: #1F1F1F;
   width: 100%;
   min-height: 100vh;
+}
+.WaitingListContainer2 {
+  background-color: #1F1F1F;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("./assets/WaitingListBg.png");
+  background-position: center center;
+  background-size: cover;
+}
+.CureentTask{
+  background-image: url("./assets/CureentTask.png");
+  background-position: center center;
+  background-size: cover;
+  color: black;
+  border: none !important;
 }
 .CurrentResturant{
   display: flex;
@@ -1711,6 +1726,15 @@ border-bottom: .5px solid white;
   display: flex;
   align-items: center;
   background-color: #2082D8;
+  border-radius: 5px;
+  text-align: center;
+  gap: 10px;
+  padding: 10px;
+}
+.CurrentTime2{
+  display: flex;
+  align-items: center;
+  background-color: #FA4517;
   border-radius: 5px;
   text-align: center;
   gap: 10px;
@@ -1743,6 +1767,20 @@ border-bottom: .5px solid white;
   gap: 5px;
   align-items: center;
 }
+.PreperOrder2{
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  border: 1px #FA4517 solid;
+
+  display: flex;
+  flex: 1;
+  color: black;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
 .theCLockContainer{
   padding: 10px;
   border: 1.5px #D78213 solid;
@@ -1751,6 +1789,17 @@ border-bottom: .5px solid white;
   display: flex;
   align-items: center;
   border-radius: 5px;
+}
+.theCLockContainer2{
+  border: 1px #FA4517 solid;
+  color: black;
+  background-color: white;
+  width: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
 
 }
 .payType{

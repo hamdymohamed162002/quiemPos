@@ -20,7 +20,7 @@ import Lottie from "react-lottie";
 
 import animaion from "../assets/falied.json";
 import moment from "moment";
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion";
 import { Modal, Button, Form } from "react-bootstrap"; // assuming you are using Bootstrap
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -176,7 +176,7 @@ const PosPage = () => {
         .get("/pos/session")
         .then((res) => {
           setSessionData(res.data);
-         
+
           setSessionLoading(false);
           if (!Cookies.get("start")) {
             Cookies.set("start", moment().format("HH:mm:SS L"));
@@ -192,7 +192,7 @@ const PosPage = () => {
           .get("/pos/session")
           .then((res) => {
             setSessionData(res.data);
-           
+
             setSessionLoading(false);
             if (!Cookies.get("start")) {
               Cookies.set("start", moment().format("HH:mm:SS L"));
@@ -311,26 +311,30 @@ const PosPage = () => {
               </div>
             </div>
             <div className="row mt-3">
-           <AnimatePresence mode="wait">
-           {products &&
-                !productError &&
-                products?.map((item, index) => {
-                  return (
-                    <motion.div key={item.created_at}   initial={{ opacity: 0 ,y:100}}
-                    animate={{ opacity: 1, y:0 }}
-                    exit={{ opacity: 0 ,y:100 }} className="col-lg-3 col-md-12 mt-3">
-                      <FoodCard
-                        addtoMenu={addtoMenu}
-                        img={item.image}
-                        text={item.title}
-                        price={item.price}
-                        id={item.id}
-                        setcheckout={setcheckout}
-                      />
-                    </motion.div >
-                  );
-                })}
-           </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {products &&
+                  !productError &&
+                  products?.map((item, index) => {
+                    return (
+                      <motion.div
+                        key={item.created_at}
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 100 }}
+                        className="col-lg-3 col-md-12 mt-3"
+                      >
+                        <FoodCard
+                          addtoMenu={addtoMenu}
+                          img={item.image}
+                          text={item.title}
+                          price={item.price}
+                          id={item.id}
+                          setcheckout={setcheckout}
+                        />
+                      </motion.div>
+                    );
+                  })}
+              </AnimatePresence>
               {productError == "noProducts" ? (
                 <div>
                   <Lottie

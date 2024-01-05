@@ -175,10 +175,10 @@ const FoodCard = ({ img, addtoMenu, text, price, id,setcheckout }) => {
         
           
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{padding:"0px"}}>
 
         <div
-            className="d-flex justify-content-between modalBtn"
+            className="d-flex justify-content-between modalBtn p-3"
             style={{
               transform: "translateX(0%) !important",
               maxWidth: "100% !important",
