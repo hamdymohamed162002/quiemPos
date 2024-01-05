@@ -15,7 +15,7 @@ const WaittingList = () => {
   useEffect(() => {
     console.log(params);
     axios
-      .get(`http://bigerp.nour-projects.com/wakein/waiting/${params.id}`)
+      .get(`https://bigerp.nour-projects.com/wakein/waiting/${params.id}`)
       .then((res) => {
         console.log(res.data);
         setData(res.data);
